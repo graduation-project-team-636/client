@@ -1,15 +1,15 @@
 <template>
-  <div class="login-container">
+  <div class="register-container">
     <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
+      ref="registerForm"
+      :model="registerForm"
+      :rules="registerRules"
+      class="register-form"
       auto-complete="on"
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">登录</h3>
+        <h3 class="title">注册</h3>
       </div>
 
       <el-form-item prop="username">
@@ -18,7 +18,7 @@
         </span>
         <el-input
           ref="username"
-          v-model="loginForm.username"
+          v-model="registerForm.username"
           placeholder="用户名"
           name="username"
           type="text"
@@ -34,67 +34,126 @@
         <el-input
           :key="passwordType"
           ref="password"
-          v-model="loginForm.password"
+          v-model="registerForm.password"
           :type="passwordType"
           placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
           <i class="el-icon-view"></i>
         </span>
       </el-form-item>
 
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
+      <el-form-item prop="checkPassword">
+        <span class="svg-container">
+          <i class="el-icon-lock"></i>
+        </span>
+        <el-input
+          :key="passwordType"
+          ref="checkPassword"
+          v-model="registerForm.checkPassword"
+          :type="passwordType"
+          placeholder="重复密码"
+          name="checkPassword"
+          tabindex="3"
+          auto-complete="on"
+        />
+        <span class="show-pwd" @click="showPwd">
+          <i class="el-icon-view"></i>
+        </span>
+      </el-form-item>
 
-      <div class="tips">
-        <span style="margin-right:20px;">用户名: admin</span>
-        <span> 密码: any</span>
+      <el-form-item prop="name">
+        <span class="svg-container">
+          <i class="el-icon-user-solid"></i>
+        </span>
+        <el-input
+          ref="name"
+          v-model="registerForm.name"
+          placeholder="昵称"
+          name="name"
+          type="text"
+          tabindex="4"
+          auto-complete="on"
+          @keyup.enter.native="handleRegister"
+        />
+      </el-form-item>
+
+      <div>
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:100%;margin-bottom:30px;"
+          @click.native.prevent="handleRegister"
+          >注册</el-button
+        >
+      </div>
+
+      <div>
+        <el-button
+          :loading="loading"
+          type="success"
+          style="width:100%;margin-bottom:30px;"
+          @click.native.prevent="handleLogin"
+          >前往登录页面
+        </el-button>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
-
 export default {
   name: "register",
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
+      if (value.length > 30) {
+        callback(new Error("用户名不能超过30位"));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error("密码不能少于六位数"));
+      } else {
+        callback();
+      }
+    };
+    const validateCheckPassword = (rule, value, callback) => {
+      if (value != this.registerForm.password) {
+        callback(new Error("两次输入的密码不一致"));
+      } else {
+        callback();
+      }
+    };
+    const validateName = (rule, value, callback) => {
+      if (value.length > 30) {
+        callback(new Error("昵称不能超过30位"));
       } else {
         callback();
       }
     };
     return {
-      loginForm: {
-        username: "admin",
-        password: "111111"
+      registerForm: {
+        username: "",
+        password: "",
+        checkPassword: "",
+        name: ""
       },
-      loginRules: {
+      registerRules: {
         username: [
           { required: true, trigger: "blur", validator: validateUsername }
         ],
         password: [
           { required: true, trigger: "blur", validator: validatePassword }
-        ]
+        ],
+        checkPassword: [
+          { required: true, trigger: "blur", validator: validateCheckPassword }
+        ],
+        name: [{ required: true, trigger: "blur", validator: validateName }]
       },
       loading: false,
       passwordType: "password",
@@ -120,12 +179,12 @@ export default {
         this.$refs.password.focus();
       });
     },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+    handleRegister() {
+      this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("user/login", this.loginForm)
+            .dispatch("user/register", this.registerForm)
             .then(() => {
               this.$router.push({ path: this.redirect || "/" });
               this.loading = false;
@@ -134,10 +193,13 @@ export default {
               this.loading = false;
             });
         } else {
-          alert("error submit!!");
+          alert("输入不符合规范!!");
           return false;
         }
       });
+    },
+    handleLogin() {
+      this.$router.push({ path: "/login" });
     }
   }
 };
@@ -152,13 +214,13 @@ $light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
+  .register-container .el-input input {
     color: $cursor;
   }
 }
 
 /* reset element-ui css */
-.login-container {
+.register-container {
   .el-input {
     display: inline-block;
     height: 47px;
@@ -195,13 +257,13 @@ $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
 
-.login-container {
+.register-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
 
-  .login-form {
+  .register-form {
     position: relative;
     width: 440px;
     max-width: 100%;
@@ -254,6 +316,11 @@ $light_gray: #eee;
 
   i {
     font-size: 17px;
+  }
+
+  .register_button {
+    text-decoration: none;
+    color: white;
   }
 }
 </style>

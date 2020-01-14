@@ -47,46 +47,51 @@
         </span>
       </el-form-item>
 
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
+      <div>
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:100%;margin-bottom:30px;"
+          @click.native.prevent="handleLogin"
+          >登录</el-button
+        >
+      </div>
 
-      <div class="tips">
-        <span style="margin-right:20px;">用户名: admin</span>
-        <span> 密码: any</span>
+      <div>
+        <el-button
+          :loading="loading"
+          type="success"
+          style="width:100%;margin-bottom:30px;"
+          @click.native.prevent="handleRegister"
+          >注册新账号
+        </el-button>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
-
 export default {
   name: "login",
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
+      if (value.length > 30) {
+        callback(new Error("用户名不能超过30位"));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error("密码不能少于六位数"));
       } else {
         callback();
       }
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "111111"
+        username: "",
+        password: ""
       },
       loginRules: {
         username: [
@@ -134,10 +139,13 @@ export default {
               this.loading = false;
             });
         } else {
-          alert("error submit!!");
+          alert("输入不符合规范!!");
           return false;
         }
       });
+    },
+    handleRegister() {
+      this.$router.push({ path: "/register" });
     }
   }
 };
@@ -254,6 +262,11 @@ $light_gray: #eee;
 
   i {
     font-size: 17px;
+  }
+
+  .register_button {
+    text-decoration: none;
+    color: white;
   }
 }
 </style>
