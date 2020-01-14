@@ -67,7 +67,7 @@
 import { validUsername } from "@/utils/validate";
 
 export default {
-  name: "login",
+  name: "register",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {

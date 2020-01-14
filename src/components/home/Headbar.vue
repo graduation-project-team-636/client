@@ -26,6 +26,16 @@
       <el-menu-item index="4"
         ><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item
       >
+
+      <div class="rightAvator">
+        <el-avatar icon="el-icon-user-solid"></el-avatar>
+      </div>
+
+      <div class="rightContainer">
+        <router-link to="/login" class="myButton">登录</router-link>
+        <span type="text" class="myButton">/</span>
+        <router-link to="/register" class="myButton">注册</router-link>
+      </div>
     </el-menu>
   </div>
 </template>
@@ -47,4 +57,25 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.rightContainer {
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 19px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.rightAvator {
+  float: right;
+  margin-top: 11px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 20px;
+}
+.myButton {
+  color: white;
+  text-decoration-line: none;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+</style>
