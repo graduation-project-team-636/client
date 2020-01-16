@@ -1,7 +1,7 @@
 <template>
   <div id="admin">
     <el-container style="height: 100%;">
-      <el-header><Headbar></Headbar> </el-header>
+      <el-header style="padding:0px;"><Headbar></Headbar></el-header>
       <el-container>
         <el-aside width="200px"> <Sidebar></Sidebar></el-aside>
         <el-container>
