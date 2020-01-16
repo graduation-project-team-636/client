@@ -5,31 +5,26 @@
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
-      background-color="#545c64"
+      background-color="#2d3a4b"
       text-color="#fff"
       active-text-color="#ffd04b"
     >
-      <el-menu-item index="1">处理中心</el-menu-item>
+      <el-menu-item index="1">看课网</el-menu-item>
       <el-submenu index="2">
-        <template slot="title">我的工作台</template>
+        <template slot="title">课程分类</template>
         <el-menu-item index="2-1">选项1</el-menu-item>
         <el-menu-item index="2-2">选项2</el-menu-item>
         <el-menu-item index="2-3">选项3</el-menu-item>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项1</el-menu-item>
-          <el-menu-item index="2-4-2">选项2</el-menu-item>
-          <el-menu-item index="2-4-3">选项3</el-menu-item>
-        </el-submenu>
       </el-submenu>
-      <el-menu-item index="3" disabled>消息中心</el-menu-item>
-      <el-menu-item index="4"
-        ><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item
-      >
 
-      <div class="rightAvator">
-        <el-avatar icon="el-icon-user-solid"></el-avatar>
-      </div>
+      <el-submenu index="3" style="float: right;">
+        <template slot="title">
+          <el-avatar :src="user_avatar"></el-avatar
+        ></template>
+        <el-menu-item index="3-1">选项1</el-menu-item>
+        <el-menu-item index="3-2">选项2</el-menu-item>
+        <el-menu-item index="3-3">选项3</el-menu-item>
+      </el-submenu>
 
       <div class="rightContainer">
         <router-link to="/login" class="myButton">登录</router-link>
@@ -46,7 +41,9 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      activeIndex2: "1"
+      activeIndex2: "1",
+      user_avatar:
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },
   methods: {
@@ -74,8 +71,8 @@ export default {
 }
 .myButton {
   color: white;
-  text-decoration-line: none;
-  margin-left: 10px;
-  margin-right: 10px;
+  text-decoration: none;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 </style>
