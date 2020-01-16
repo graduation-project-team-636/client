@@ -55,6 +55,10 @@ export default {
 </script>
 
 <style>
+#headbar {
+  padding: 0px;
+  margin: 0px;
+}
 .rightContainer {
   float: right;
   margin-top: 20px;

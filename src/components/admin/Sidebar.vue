@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%;">
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
@@ -8,6 +8,7 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
+      style="height: 100%;"
     >
       <el-submenu index="1">
         <template slot="title">
@@ -44,16 +45,7 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    handleOpen(key, keyPath) {
-      alert(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      alert(key, keyPath);
-    }
-  }
-};
+export default {};
 </script>
 
 <style></style>
