@@ -1,7 +1,7 @@
 <template>
   <div id="headbar">
     <el-menu
-      :default-active="activeIndex2"
+      :default-active="activeIndex"
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
@@ -9,28 +9,39 @@
       text-color="#fff"
       active-text-color="#ffd04b"
     >
-      <el-menu-item index="1">看课网</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">课程分类</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-      </el-submenu>
+      <router-link to="/"
+        ><el-menu-item index="1" style="float: left;"
+          >看课网</el-menu-item
+        ></router-link
+      >
+
+      <router-link to="/classification">
+        <el-menu-item index="2" style="float: left;"
+          >课程分类</el-menu-item
+        ></router-link
+      >
 
       <el-submenu index="3" style="float: right;">
         <template slot="title">
           <el-avatar :src="user_avatar"></el-avatar
         ></template>
-        <el-menu-item index="3-1">选项1</el-menu-item>
-        <el-menu-item index="3-2">选项2</el-menu-item>
-        <el-menu-item index="3-3">选项3</el-menu-item>
+        <router-link to="/admin/user/home">
+          <el-menu-item index="3-1">个人中心</el-menu-item></router-link
+        >
+        <el-menu-item index="3-2">退出登录</el-menu-item>
       </el-submenu>
 
-      <div class="rightContainer">
-        <router-link to="/login" class="myButton">登录</router-link>
-        <span type="text" class="myButton">/</span>
-        <router-link to="/register" class="myButton">注册</router-link>
-      </div>
+      <router-link to="/register" class="myButton">
+        <el-menu-item index="5" style="float: right;"
+          >注册</el-menu-item
+        ></router-link
+      >
+
+      <router-link to="/login" class="myButton"
+        ><el-menu-item index="4" style="float: right;"
+          >登录</el-menu-item
+        ></router-link
+      >
     </el-menu>
   </div>
 </template>
@@ -41,7 +52,6 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      activeIndex2: "1",
       user_avatar:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
@@ -58,13 +68,6 @@ export default {
 #headbar {
   padding: 0px;
   margin: 0px;
-}
-.rightContainer {
-  float: right;
-  margin-top: 20px;
-  margin-bottom: 19px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 .rightAvator {
   float: right;
