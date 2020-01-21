@@ -25,10 +25,14 @@
         <template slot="title">
           <el-avatar :src="user_avatar"></el-avatar
         ></template>
-        <router-link to="/admin/user/home">
-          <el-menu-item index="3-1">个人中心</el-menu-item></router-link
+        <router-link to="/admin/user/home" class="myButton">
+          <el-menu-item index="3-1"
+            ><i class="el-icon-user"></i>个人中心</el-menu-item
+          ></router-link
         >
-        <el-menu-item index="3-2">退出登录</el-menu-item>
+        <el-menu-item index="3-2"
+          ><i class="el-icon-caret-right"></i>退出登录</el-menu-item
+        >
       </el-submenu>
 
       <router-link to="/register" class="myButton">
@@ -51,11 +55,11 @@ export default {
   name: "headbar",
   data() {
     return {
-      activeIndex: "1",
       user_avatar:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },
+  props: { activeIndex: String },
   methods: {
     handleSelect(key, keyPath) {
       alert(key, keyPath);
@@ -79,7 +83,5 @@ export default {
 .myButton {
   color: white;
   text-decoration: none;
-  margin-left: 5px;
-  margin-right: 5px;
 }
 </style>

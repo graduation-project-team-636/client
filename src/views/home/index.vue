@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <el-row id="head">
-      <el-col :span="24"><Headbar></Headbar></el-col>
+      <el-col :span="24"><Headbar activeIndex="1"></Headbar></el-col>
     </el-row>
 
     <el-row id="display" :gutter="0" type="flex" justify="center">
@@ -13,7 +13,7 @@
       ></el-col>
     </el-row>
 
-    <el-row id="display" :gutter="0" type="flex" justify="center">
+    <el-row id="recommend" :gutter="0" type="flex" justify="center">
       <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="14"
         ><Recommend></Recommend
       ></el-col>

@@ -14,7 +14,7 @@
       </el-menu-item>
       <router-link to="/admin/user/home" class="routeLink">
         <el-menu-item index="1">
-          <i class="el-icon-user-solid"></i>
+          <i class="el-icon-user"></i>
           <span slot="title">个人主页 </span>
         </el-menu-item>
       </router-link>
