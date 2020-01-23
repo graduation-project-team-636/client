@@ -83,7 +83,6 @@
 
       <div>
         <el-button
-          :loading="loading"
           type="primary"
           style="width:100%;margin-bottom:30px;"
           @click.native.prevent="handleRegister"
@@ -93,7 +92,6 @@
 
       <div>
         <el-button
-          :loading="loading"
           type="success"
           style="width:100%;margin-bottom:30px;"
           @click.native.prevent="handleLogin"
@@ -155,18 +153,8 @@ export default {
         ],
         name: [{ required: true, trigger: "blur", validator: validateName }]
       },
-      loading: false,
-      passwordType: "password",
-      redirect: undefined
+      passwordType: "password"
     };
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect;
-      },
-      immediate: true
-    }
   },
   methods: {
     showPwd() {
@@ -182,16 +170,7 @@ export default {
     handleRegister() {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("user/register", this.registerForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
-            })
-            .catch(() => {
-              this.loading = false;
-            });
+          alert(1);
         } else {
           alert("输入不符合规范!!");
           return false;
