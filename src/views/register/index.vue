@@ -109,6 +109,8 @@ export default {
     const validateUsername = (rule, value, callback) => {
       if (value.length > 30) {
         callback(new Error("用户名不能超过30位"));
+      } else if (value.length == 0) {
+        callback(new Error("用户名不能为空"));
       } else {
         callback();
       }
@@ -130,6 +132,8 @@ export default {
     const validateName = (rule, value, callback) => {
       if (value.length > 30) {
         callback(new Error("昵称不能超过30位"));
+      } else if (value.length == 0) {
+        callback(new Error("昵称不能为空"));
       } else {
         callback();
       }
@@ -170,7 +174,27 @@ export default {
     handleRegister() {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
-          alert(1);
+          var params = new FormData();
+          params.append("username", this.registerForm.username);
+          params.append("password", this.registerForm.password);
+          params.append("name", this.registerForm.name);
+
+          var config = {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          };
+
+          var url = this.$store.state.baseUrl + "/register/";
+
+          this.axios
+            .post(url, params, config)
+            .then(function(response) {
+              alert(response);
+            })
+            .catch(function(error) {
+              alert(error);
+            });
         } else {
           alert("输入不符合规范!!");
           return false;

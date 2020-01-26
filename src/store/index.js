@@ -4,7 +4,9 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    baseUrl: "http://120.77.146.251:8000"
+  },
   mutations: {},
   actions: {},
   modules: {}
