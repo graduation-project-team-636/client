@@ -6,15 +6,22 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     baseUrl: "http://120.77.146.251:8000", // api请求地址
+    isLogin: false,
     user_id: 0, // 0表示没有用户登录
+    groupid: 2, //用户组，1为管理员，2为普通用户
     avatar: "http://120.77.146.251:8000/media/avatars/default.png" //用户头像
   },
   mutations: {
-    avatarSet(state, params) {
-      state.avatar = params;
+    avatarSet(state, param) {
+      state.avatar = param;
     },
-    userIdSet(state, params) {
-      state.user_id = params;
+    loginSet(state, params) {
+      state.user_id = params.user_id;
+      state.groupid = params.groupid;
+      state.avatar = params.avatar;
+      if (state.user_id != 0) {
+        state.isLogin = true;
+      }
     }
   },
   actions: {},

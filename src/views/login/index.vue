@@ -49,7 +49,6 @@
 
       <div>
         <el-button
-          :loading="loading"
           type="primary"
           style="width:100%;margin-bottom:30px;"
           @click.native.prevent="handleLogin"
@@ -59,7 +58,6 @@
 
       <div>
         <el-button
-          :loading="loading"
           type="success"
           style="width:100%;margin-bottom:30px;"
           @click.native.prevent="handleRegister"
@@ -77,6 +75,8 @@ export default {
     const validateUsername = (rule, value, callback) => {
       if (value.length > 30) {
         callback(new Error("用户名不能超过30位"));
+      } else if (value.length == 0) {
+        callback(new Error("用户名不能为空"));
       } else {
         callback();
       }
@@ -101,18 +101,8 @@ export default {
           { required: true, trigger: "blur", validator: validatePassword }
         ]
       },
-      loading: false,
-      passwordType: "password",
-      redirect: undefined
+      passwordType: "password"
     };
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect;
-      },
-      immediate: true
-    }
   },
   methods: {
     showPwd() {
@@ -128,18 +118,39 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("user/login", this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
+          var loginUrl = this.$store.state.baseUrl + "/login/";
+
+          var loginParams = new FormData();
+          loginParams.append("username", this.loginForm.username);
+          loginParams.append("password", this.loginForm.password);
+
+          var config = {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          };
+
+          //缓存this指针
+          var ThisMessage = this.$message;
+          var ThisRouter = this.$router;
+          var ThisStore = this.$store;
+
+          this.axios
+            .post(loginUrl, loginParams, config)
+            .then(function(response) {
+              // 登录成功
+              if (response.data.error_code == 0) {
+                ThisStore.commit("loginSet", response.data.data);
+                ThisRouter.push({ path: "/" });
+              } else {
+                ThisMessage.error(response.data.message);
+              }
             })
-            .catch(() => {
-              this.loading = false;
+            .catch(function(error) {
+              ThisMessage.error(error);
             });
         } else {
-          alert("输入不符合规范!!");
+          this.$message.error("输入不符合规范!!");
           return false;
         }
       });

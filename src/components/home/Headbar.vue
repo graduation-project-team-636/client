@@ -66,7 +66,7 @@ export default {
     },
     handleIfLogin() {
       // 如果有用户登录
-      if (this.$store.state.user_id != 0) {
+      if (this.$store.state.isLogin) {
         this.avatar = this.$store.state.avatar;
       }
     }

@@ -212,8 +212,7 @@ export default {
                   .then(function(response) {
                     // 登录成功
                     if (response.data.error_code == 0) {
-                      ThisStore.commit("userIdSet", response.data.data.user_id);
-                      ThisStore.commit("avatar", response.data.data.avatar);
+                      ThisStore.commit("loginSet", response.data.data);
                       ThisRouter.push({ path: "/" });
                     } else {
                       ThisMessage.error(response.data.message);
