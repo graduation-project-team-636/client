@@ -22,9 +22,7 @@
       >
 
       <el-submenu index="3" style="float: right;">
-        <template slot="title">
-          <el-avatar :src="user_avatar"></el-avatar
-        ></template>
+        <template slot="title"> <el-avatar :src="avatar"></el-avatar></template>
         <router-link to="/admin/user/home" class="myButton">
           <el-menu-item index="3-1"
             ><i class="el-icon-user"></i>个人中心</el-menu-item
@@ -55,14 +53,22 @@ export default {
   name: "headbar",
   data() {
     return {
-      user_avatar:
-        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+      avatar: ""
     };
   },
   props: { activeIndex: String },
+  mounted() {
+    this.handleIfLogin();
+  },
   methods: {
     handleSelect(key, keyPath) {
       alert(key, keyPath);
+    },
+    handleIfLogin() {
+      // 如果有用户登录
+      if (this.$store.state.user_id != 0) {
+        this.avatar = this.$store.state.avatar;
+      }
     }
   }
 };

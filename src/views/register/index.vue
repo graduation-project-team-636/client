@@ -174,10 +174,14 @@ export default {
     handleRegister() {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
-          var params = new FormData();
-          params.append("username", this.registerForm.username);
-          params.append("password", this.registerForm.password);
-          params.append("name", this.registerForm.name);
+          var registerParams = new FormData();
+          registerParams.append("username", this.registerForm.username);
+          registerParams.append("password", this.registerForm.password);
+          registerParams.append("name", this.registerForm.name);
+
+          var loginParams = new FormData();
+          loginParams.append("username", this.registerForm.username);
+          loginParams.append("password", this.registerForm.password);
 
           var config = {
             headers: {
@@ -185,18 +189,46 @@ export default {
             }
           };
 
-          var url = this.$store.state.baseUrl + "/register/";
+          var registerUrl = this.$store.state.baseUrl + "/register/";
+          var loginUrl = this.$store.state.baseUrl + "/login/";
+
+          //缓存this指针
+          var ThisMessage = this.$message;
+          var ThisRouter = this.$router;
+          var ThisAxios = this.axios;
+          var ThisStore = this.$store;
 
           this.axios
-            .post(url, params, config)
+            .post(registerUrl, registerParams, config)
             .then(function(response) {
-              alert(response);
+              //用户名已存在
+              if (response.data.error_code == 21) {
+                ThisMessage.error(response.data.message);
+              }
+              // 成功
+              else if (response.data.error_code == 0) {
+                // 注册成功就直接登录
+                ThisAxios.post(loginUrl, loginParams, config)
+                  .then(function(response) {
+                    // 登录成功
+                    if (response.data.error_code == 0) {
+                      ThisStore.commit("userIdSet", response.data.data.user_id);
+                      ThisStore.commit("avatar", response.data.data.avatar);
+                      ThisRouter.push({ path: "/" });
+                    } else {
+                      ThisMessage.error(response.data.message);
+                    }
+                  })
+                  .catch(function(error) {
+                    ThisMessage.error(error);
+                  });
+              }
             })
             .catch(function(error) {
-              alert(error);
+              ThisMessage.error(error);
             });
         } else {
-          alert("输入不符合规范!!");
+          this.$message.error("输入不符合规范!!");
           return false;
         }
       });

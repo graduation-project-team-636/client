@@ -1,15 +1,28 @@
 <template>
   <div>
-    <el-upload
-      class="avatar-uploader"
-      action="https://jsonplaceholder.typicode.com/posts/"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload"
-    >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-    </el-upload>
+    <div class="left">
+      <el-upload
+        class="avatar-uploader"
+        action="https://jsonplaceholder.typicode.com/posts/"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload"
+      >
+        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+    </div>
+    <div class="right">
+      <div class="profileItem">
+        <span class="myspan">用户名：</span>{{ username }}
+      </div>
+      <div class="profileItem">
+        <span class="myspan">用户组：</span>
+      </div>
+      <div class="profileItem">
+        <span class="myspan">注册时间：</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,7 +31,8 @@ export default {
   data() {
     return {
       imageUrl:
-        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+      username: "1234564"
     };
   },
   methods: {
@@ -64,5 +78,21 @@ export default {
   width: 178px;
   height: 178px;
   display: block;
+}
+.left {
+  float: left;
+}
+.right {
+  float: left;
+  margin-top: 25px;
+  margin-left: 25px;
+  font-size: 14px;
+  color: #898989;
+}
+.profileItem {
+  margin-top: 10px;
+}
+.myspan {
+  color: #2c3e50;
 }
 </style>
