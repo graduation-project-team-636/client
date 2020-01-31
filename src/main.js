@@ -5,8 +5,10 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import VueCookie from "vue-cookie";
 
 Vue.use(VueAxios, axios);
+Vue.use(VueCookie);
 
 Vue.config.productionTip = false;
 

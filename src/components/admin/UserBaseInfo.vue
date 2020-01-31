@@ -3,9 +3,8 @@
     <div class="left">
       <el-upload
         class="avatar-uploader"
-        action="https://jsonplaceholder.typicode.com/posts/"
+        :action="actionUrl"
         :show-file-list="false"
-        :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload"
       >
         <img v-if="imageUrl" :src="imageUrl" class="avatar" />
@@ -17,10 +16,10 @@
         <span class="myspan">用户名：</span>{{ username }}
       </div>
       <div class="profileItem">
-        <span class="myspan">用户组：</span>
+        <span class="myspan">用户组：</span> {{ group }}
       </div>
       <div class="profileItem">
-        <span class="myspan">注册时间：</span>
+        <span class="myspan">注册时间：</span> {{ reg_time }}
       </div>
     </div>
   </div>
@@ -30,35 +29,80 @@
 export default {
   data() {
     return {
-      imageUrl:
-        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-      username: "1234564"
+      actionUrl: this.$store.state.baseUrl + "/user/avatar_change",
+      imageUrl: "",
+      username: "",
+      group: "",
+      reg_time: ""
     };
   },
+  mounted() {
+    this.imageUrl = this.$store.state.avatar;
+    this.username = this.$store.state.username;
+    if (this.$store.state.groupid == 2) {
+      this.group = "普通用户";
+    } else if (this.$store.state.groupid == 1) {
+      this.group = "管理员";
+    }
+    this.reg_time = this.$store.state.reg_time;
+  },
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
     beforeAvatarUpload(file) {
+      var isLogin = this.$store.state.isLogin;
       const isJPG = file.type === "image/jpeg";
+      const isPNG = file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
+      if (!isLogin) {
+        this.$message.error("用户未登录");
+      } else if (!isJPG && !isPNG) {
+        this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
+      } else if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
+      } else {
+        var avatarParams = new FormData();
+        avatarParams.append("avatar", file);
+
+        //缓存this指针
+        var ThisMessage = this.$message;
+        var self = this;
+
+        var config = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Cookie: "sessionid=" + this.$cookie.get("sessionid")
+          }
+        };
+
+        this.axios
+          .post(this.actionUrl, avatarParams, config)
+          .then(function(response) {
+            if (response.data.error_code == 0) {
+              self.imageUrl = response.data.data.avatar;
+              ThisMessage.success(response.data.message);
+            } else if (response.data.error_code == 13) {
+              ThisMessage.error(response.data.message);
+            } else {
+              ThisMessage.error("发生了未知错误");
+            }
+          })
+          .catch(function(error) {
+            ThisMessage.error(error);
+          });
       }
-      return isJPG && isLt2M;
+
+      // 不使用upload自带的上传方式，而是使用axios，所以阻止upload自带的上传
+      return false;
     }
-  }
+  },
+  computed: {}
 };
 </script>
 
 <style>
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
-  border-radius: 6px;
+  border-radius: 50%;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -69,14 +113,14 @@ export default {
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
   text-align: center;
 }
 .avatar {
-  width: 178px;
-  height: 178px;
+  width: 150px;
+  height: 150px;
   display: block;
 }
 .left {

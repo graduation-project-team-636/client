@@ -141,6 +141,7 @@ export default {
               // 登录成功
               if (response.data.error_code == 0) {
                 ThisStore.commit("loginSet", response.data.data);
+                alert(document.cookie);
                 ThisRouter.push({ path: "/" });
               } else {
                 ThisMessage.error(response.data.message);
