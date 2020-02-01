@@ -69,8 +69,7 @@ export default {
 
         var config = {
           headers: {
-            "Content-Type": "multipart/form-data",
-            Cookie: "sessionid=" + this.$cookie.get("sessionid")
+            "Content-Type": "multipart/form-data"
           }
         };
 

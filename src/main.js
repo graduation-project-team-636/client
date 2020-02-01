@@ -11,6 +11,7 @@ Vue.use(VueAxios, axios);
 Vue.use(VueCookie);
 
 Vue.config.productionTip = false;
+axios.defaults.withCredentials = true;
 
 new Vue({
   router,
