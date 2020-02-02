@@ -221,13 +221,15 @@ export default {
                   .catch(function(error) {
                     ThisMessage.error(error);
                   });
+              } else {
+                ThisMessage.error("发生了未知错误");
               }
             })
             .catch(function(error) {
               ThisMessage.error(error);
             });
         } else {
-          this.$message.error("输入不符合规范!!");
+          this.$message.error("输入不符合规范");
           return false;
         }
       });

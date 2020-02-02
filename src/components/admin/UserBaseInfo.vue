@@ -48,17 +48,14 @@ export default {
   },
   methods: {
     beforeAvatarUpload(file) {
-      var isLogin = this.$store.state.isLogin;
       const isJPG = file.type === "image/jpeg";
       const isPNG = file.type === "image/png";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt1M = file.size / 1024 / 1024 < 1;
 
-      if (!isLogin) {
-        this.$message.error("用户未登录");
-      } else if (!isJPG && !isPNG) {
+      if (!isJPG && !isPNG) {
         this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
-      } else if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+      } else if (!isLt1M) {
+        this.$message.error("上传头像图片大小不能超过 1MB!");
       } else {
         var avatarParams = new FormData();
         avatarParams.append("avatar", file);

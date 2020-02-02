@@ -60,6 +60,7 @@ export default {
   mounted() {
     this.handleIfLogin();
   },
+  watch: {},
   methods: {
     handleSelect(key, keyPath) {
       alert(key, keyPath);
