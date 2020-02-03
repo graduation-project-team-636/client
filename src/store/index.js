@@ -5,8 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    //baseUrl: "http://120.77.146.251:8000", // api请求地址
-    baseUrl: "http://localhost:8000",
+    //baseUrl: "http://120.77.146.251:8000/api", // api请求地址
+    baseUrl: "http://localhost:8000/api",
     isLogin: false,
     user_id: 0, // 0表示没有用户登录
     username: "",
@@ -25,6 +25,14 @@ export default new Vuex.Store({
       state.groupid = params.groupid;
       state.avatar = params.avatar;
       state.reg_time = params.reg_time;
+    },
+    logoutSet(state) {
+      state.isLogin = false;
+      state.user_id = 0;
+      state.username = "";
+      state.groupid = 2;
+      state.avatar = "";
+      state.reg_time = "";
     }
   },
   actions: {},

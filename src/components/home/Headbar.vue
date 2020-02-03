@@ -22,7 +22,9 @@
       >
 
       <el-submenu index="3" style="float: right;">
-        <template slot="title"> <el-avatar :src="avatar"></el-avatar></template>
+        <template slot="title">
+          <el-avatar :src="avatar" :fit="avatarFit"></el-avatar
+        ></template>
         <router-link to="/admin/user/home" class="myButton">
           <el-menu-item index="3-1"
             ><i class="el-icon-user"></i>个人中心</el-menu-item
@@ -53,7 +55,8 @@ export default {
   name: "headbar",
   data() {
     return {
-      avatar: ""
+      avatar: "",
+      avatarFit: "cover"
     };
   },
   props: { activeIndex: String },
@@ -62,14 +65,40 @@ export default {
   },
   watch: {},
   methods: {
-    handleSelect(key, keyPath) {
-      alert(key, keyPath);
+    handleSelect(key) {
+      // 退出登录
+      if (key == "3-2") {
+        this.handleLogout();
+      }
     },
     handleIfLogin() {
       // 如果有用户登录
       if (this.$store.state.isLogin) {
         this.avatar = this.$store.state.avatar;
       }
+    },
+    handleLogout() {
+      // 退出登录
+      var logoutUrl = this.$store.state.baseUrl + "/logout/";
+
+      var self = this;
+
+      this.axios
+        .post(logoutUrl)
+        .then(function(response) {
+          // 成功
+          if (response.data.error_code == 0) {
+            self.$store.commit("logoutSet");
+            self.$router.push({ path: "/" });
+          } else if (response.data.error_code == 13) {
+            self.$message.error("用户未登录");
+          } else {
+            self.$message.error("发生了未知错误");
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
     }
   }
 };

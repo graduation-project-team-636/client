@@ -5,7 +5,7 @@
       :model="form"
       label-width="80px"
       :rules="infoRules"
-      auto-complete="on"
+      auto-complete="off"
     >
       <el-form-item prop="name" label="昵称">
         <el-input ref="name" v-model="form.name"></el-input>
@@ -111,7 +111,7 @@ export default {
           }
           // 用户未登录
           else if (response.data.error_code == 13) {
-            self.$message.error(response.data.message);
+            self.$message.error("用户未登录");
           } else {
             self.$message.error("发生了未知错误");
           }
@@ -166,7 +166,7 @@ export default {
               }
               // 用户未登录
               else if (response.data.error_code == 13) {
-                self.$message.error(response.data.message);
+                self.$message.error("用户未登录");
               } else {
                 self.$message.error("发生了未知错误");
               }
