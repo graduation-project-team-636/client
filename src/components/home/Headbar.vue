@@ -63,7 +63,14 @@ export default {
   mounted() {
     this.handleIfLogin();
   },
-  watch: {},
+  watch: {
+    // 监听用户头像是否修改
+    "$store.state.avatar": function(newValue, oldValue) {
+      if (newValue != oldValue) {
+        this.avatar = newValue;
+      }
+    }
+  },
   methods: {
     handleSelect(key) {
       // 退出登录

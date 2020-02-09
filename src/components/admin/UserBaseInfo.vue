@@ -75,6 +75,7 @@ export default {
           .then(function(response) {
             if (response.data.error_code == 0) {
               self.imageUrl = response.data.data.avatar;
+              self.$store.commit("avatarSet", response.data.data.avatar);
               ThisMessage.success(response.data.message);
             } else if (response.data.error_code == 13) {
               ThisMessage.error(response.data.message);

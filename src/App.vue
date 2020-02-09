@@ -6,7 +6,29 @@
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  created() {
+    // 整个应用创建之初，先获取登录状态以保持登录
+    this.keepLoginState();
+  },
+  methods: {
+    keepLoginState() {
+      // 获取用户基本信息以实现保持登录
+      var profileGetUrl = this.$store.state.baseUrl + "/user/profile/";
+      var self = this;
+
+      this.axios
+        .get(profileGetUrl)
+        .then(function(response) {
+          if (response.data.error_code == 0) {
+            self.$store.commit("loginSet", response.data.data);
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
+    }
+  }
 };
 </script>
 
