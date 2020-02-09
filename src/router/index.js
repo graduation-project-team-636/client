@@ -29,11 +29,17 @@ const routes = [
     path: "/admin",
     name: "admin",
     component: () => import("../views/admin/index.vue"),
+    meta: {
+      needLogin: true
+    },
     children: [
       {
         path: "user/home",
         name: "userhome",
-        component: () => import("../views/admin/userhome.vue")
+        component: () => import("../views/admin/userhome.vue"),
+        meta: {
+          needLogin: true
+        }
       }
     ]
   },

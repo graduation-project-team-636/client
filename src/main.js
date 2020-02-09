@@ -18,3 +18,21 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount("#app");
+
+// 路由跳转前检测是否登录，未登录的话不能进入一些页面
+router.beforeResolve((to, from, next) => {
+  if (to.meta.needLogin == true) {
+    if (store.state.isLogin == true) {
+      // 已登录可进入
+      next();
+    } else {
+      // 未登录则进入登陆页面
+      next({
+        path: "/login"
+      });
+    }
+  } else {
+    // 确保一定要调用next()
+    next();
+  }
+});
