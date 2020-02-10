@@ -5,7 +5,7 @@
       :model="registerForm"
       :rules="registerRules"
       class="register-form"
-      auto-complete="on"
+      auto-complete="off"
       label-position="left"
     >
       <div class="title-container">
@@ -23,7 +23,7 @@
           name="username"
           type="text"
           tabindex="1"
-          auto-complete="on"
+          auto-complete="off"
         />
       </el-form-item>
 
@@ -39,7 +39,7 @@
           placeholder="密码"
           name="password"
           tabindex="2"
-          auto-complete="on"
+          auto-complete="off"
         />
         <span class="show-pwd" @click="showPwd">
           <i class="el-icon-view"></i>
@@ -58,7 +58,7 @@
           placeholder="重复密码"
           name="checkPassword"
           tabindex="3"
-          auto-complete="on"
+          auto-complete="off"
         />
         <span class="show-pwd" @click="showPwd">
           <i class="el-icon-view"></i>
@@ -76,7 +76,7 @@
           name="name"
           type="text"
           tabindex="4"
-          auto-complete="on"
+          auto-complete="off"
           @keyup.enter.native="handleRegister"
         />
       </el-form-item>

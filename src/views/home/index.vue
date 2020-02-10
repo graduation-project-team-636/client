@@ -15,7 +15,16 @@
 
     <el-row id="recommend" :gutter="0" type="flex" justify="center">
       <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="14"
-        ><Recommend></Recommend
+        ><div>
+          <div>
+            <h2>热门课程</h2>
+            <CourseCard></CourseCard>
+          </div>
+
+          <div>
+            <h2>最新课程</h2>
+            <CourseCard></CourseCard>
+          </div></div
       ></el-col>
     </el-row>
   </div>
@@ -26,7 +35,7 @@
 import Headbar from "@/components/home/Headbar.vue";
 import Sidebar from "@/components/home/Sidebar.vue";
 import Carousel from "@/components/home/Carousel.vue";
-import Recommend from "@/components/home/Recommend.vue";
+import CourseCard from "@/components/home/CourseCard.vue";
 
 export default {
   name: "home",
@@ -34,7 +43,7 @@ export default {
     Headbar,
     Sidebar,
     Carousel,
-    Recommend
+    CourseCard
   }
 };
 </script>
