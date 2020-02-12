@@ -1,10 +1,9 @@
 <template>
-  <div id="headbar">
+  <div id="home_headbar">
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
       mode="horizontal"
-      @select="handleSelect"
       background-color="#2d3a4b"
       text-color="#fff"
       active-text-color="#ffd04b"
@@ -30,7 +29,7 @@
             ><i class="el-icon-user"></i>个人中心</el-menu-item
           ></router-link
         >
-        <el-menu-item index="3-2"
+        <el-menu-item v-on:click="handleLogout"
           ><i class="el-icon-caret-right"></i>退出登录</el-menu-item
         >
       </el-submenu>
@@ -47,13 +46,13 @@
         ></router-link
       >
 
-      <router-link v-if="seenLogin" to="/login" class="myButton"
+      <router-link v-if="seenLogin" to="/mystudy" class="myButton"
         ><el-menu-item index="6" style="float: right;"
           >我的学习</el-menu-item
         ></router-link
       >
 
-      <router-link v-if="seenLogin" to="/register" class="myButton">
+      <router-link v-if="seenLogin" to="/creating" class="myButton">
         <el-menu-item index="7" style="float: right;"
           >创作中心</el-menu-item
         ></router-link
@@ -64,7 +63,7 @@
 
 <script>
 export default {
-  name: "headbar",
+  name: "home_headbar",
   data() {
     return {
       avatar: "",
@@ -84,12 +83,6 @@ export default {
     }
   },
   methods: {
-    handleSelect(key) {
-      // 退出登录
-      if (key == "3-2") {
-        this.handleLogout();
-      }
-    },
     handleIfLogin() {
       // 如果有用户登录
       if (this.$store.state.isLogin) {
@@ -131,20 +124,21 @@ export default {
 };
 </script>
 
-<style>
-#headbar {
+<style lang="scss">
+#home_headbar {
   padding: 0px;
   margin: 0px;
-}
-.rightAvator {
-  float: right;
-  margin-top: 11px;
-  margin-bottom: 5px;
-  margin-left: 5px;
-  margin-right: 20px;
-}
-.myButton {
-  color: white;
-  text-decoration: none;
+
+  .rightAvator {
+    float: right;
+    margin-top: 11px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 20px;
+  }
+  .myButton {
+    color: white;
+    text-decoration: none;
+  }
 }
 </style>

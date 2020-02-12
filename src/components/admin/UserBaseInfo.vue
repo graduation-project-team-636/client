@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="admin_userbaseinfo">
     <div class="left">
       <el-upload
         class="avatar-uploader"
@@ -96,44 +96,46 @@ export default {
 };
 </script>
 
-<style>
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 150px;
-  height: 150px;
-  line-height: 150px;
-  text-align: center;
-}
-.avatar {
-  width: 150px;
-  height: 150px;
-  display: block;
-}
-.left {
-  float: left;
-}
-.right {
-  float: left;
-  margin-top: 25px;
-  margin-left: 25px;
-  font-size: 14px;
-  color: #898989;
-}
-.profileItem {
-  margin-top: 10px;
-}
-.myspan {
-  color: #2c3e50;
+<style lang="scss">
+#admin_userbaseinfo {
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+  }
+  .avatar {
+    width: 150px;
+    height: 150px;
+    display: block;
+  }
+  .left {
+    float: left;
+  }
+  .right {
+    float: left;
+    margin-top: 25px;
+    margin-left: 25px;
+    font-size: 14px;
+    color: #898989;
+  }
+  .profileItem {
+    margin-top: 10px;
+  }
+  .myspan {
+    color: #2c3e50;
+  }
 }
 </style>

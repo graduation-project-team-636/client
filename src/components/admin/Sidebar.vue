@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%;">
+  <div id="admin_sidebar" style="height: 100%;">
     <el-menu
       default-active="1"
       class="el-menu-vertical-demo"
@@ -48,8 +48,10 @@ export default {
 };
 </script>
 
-<style>
-.routeLink {
-  text-decoration: none;
+<style lang="scss">
+#admin_sidebar {
+  .routeLink {
+    text-decoration: none;
+  }
 }
 </style>

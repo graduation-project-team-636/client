@@ -216,60 +216,60 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #classification {
   height: 100%;
-}
 
-.main {
-  margin: auto;
-  width: 1400px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
+  .main {
+    margin: auto;
+    width: 1400px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 
-.divide {
-  height: 1px;
-  background-color: grey;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
+  .divide {
+    height: 1px;
+    background-color: grey;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
 
-.background {
-  background-color: white;
-}
+  .background {
+    background-color: white;
+  }
 
-.frontText {
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-  padding-top: 10px;
-}
+  .frontText {
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+  }
 
-.labelButton {
-  display: inline-block;
-  padding: 12px 20px 12px 20px;
-  cursor: pointer;
-}
+  .labelButton {
+    display: inline-block;
+    padding: 12px 20px 12px 20px;
+    cursor: pointer;
+  }
 
-.labelButton:hover {
-  color: #008080;
-}
+  .labelButton:hover {
+    color: #008080;
+  }
 
-label {
-  font-size: 14px;
-}
+  label {
+    font-size: 14px;
+  }
 
-.buttonGroup {
-  padding: 0;
-}
+  .buttonGroup {
+    padding: 0;
+  }
 
-.activeStyle {
-  background-color: #008080;
-  color: white;
-}
+  .activeStyle {
+    background-color: #008080;
+    color: white;
+  }
 
-.activeStyle:hover {
-  color: white;
+  .activeStyle:hover {
+    color: white;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="home_coursecard">
     <el-row>
       <el-col :span="4">
         <el-card :body-style="{ padding: '0px' }">
@@ -27,47 +27,49 @@
 
 <script>
 export default {
-  name: "courseCard",
+  name: "home_coursecard",
   data() {
     return {};
   }
 };
 </script>
 
-<style>
-.courseTitle {
-  color: black;
-}
+<style lang="scss">
+#home_coursecard {
+  .courseTitle {
+    color: black;
+  }
 
-.intro {
-  font-size: 13px;
-  color: #999;
-  margin-bottom: 8px;
-}
+  .intro {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 8px;
+  }
 
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
 
-.button {
-  padding: 0;
-  float: right;
-}
+  .button {
+    padding: 0;
+    float: right;
+  }
 
-.image {
-  width: 100%;
-  height: 160px;
-  display: block;
-}
+  .image {
+    width: 100%;
+    height: 160px;
+    display: block;
+  }
 
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
 
-.clearfix:after {
-  clear: both;
+  .clearfix:after {
+    clear: both;
+  }
 }
 </style>

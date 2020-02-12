@@ -47,6 +47,22 @@ const routes = [
     path: "/classification",
     name: "classification",
     component: () => import("../views/classification/index.vue")
+  },
+  {
+    path: "/creating",
+    name: "creating",
+    component: () => import("../views/creating/index.vue"),
+    meta: {
+      needLogin: true
+    }
+  },
+  {
+    path: "/mystudy",
+    name: "mystudy",
+    component: () => import("../views/mystudy/index.vue"),
+    meta: {
+      needLogin: true
+    }
   }
 ];
 

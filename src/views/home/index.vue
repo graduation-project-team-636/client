@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div id="home">
     <el-row id="head">
       <el-col :span="24"><Headbar activeIndex="1"></Headbar></el-col>
     </el-row>
@@ -48,8 +48,10 @@ export default {
 };
 </script>
 
-<style>
-#display {
-  margin-top: 20px;
+<style lang="scss">
+#home {
+  #display {
+    margin-top: 20px;
+  }
 }
 </style>

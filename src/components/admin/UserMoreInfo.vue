@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="admin_usermoreinfo">
     <el-form
       ref="form"
       :model="form"

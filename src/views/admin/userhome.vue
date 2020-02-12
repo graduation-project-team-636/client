@@ -1,5 +1,5 @@
 <template>
-  <div id="userhome">
+  <div id="admin_userhome">
     <div>
       <el-row class="head">
         <el-col><UserBaseInfo></UserBaseInfo> </el-col>
@@ -19,7 +19,7 @@ import UserBaseInfo from "@/components/admin/UserBaseInfo.vue";
 import UserMoreInfo from "@/components/admin/UserMoreInfo.vue";
 
 export default {
-  name: "userhome",
+  name: "admin_userhome",
   components: {
     UserBaseInfo,
     UserMoreInfo
@@ -27,19 +27,21 @@ export default {
 };
 </script>
 
-<style>
-.head {
-  margin-left: 100px;
-  width: 1000px;
-}
-.main {
-  margin-left: 50px;
-  width: 1000px;
-}
-.divide {
-  height: 1px;
-  background-color: gray;
-  margin-top: 30px;
-  margin-bottom: 50px;
+<style lang="scss">
+#admin_userhome {
+  .head {
+    margin-left: 100px;
+    width: 1000px;
+  }
+  .main {
+    margin-left: 50px;
+    width: 1000px;
+  }
+  .divide {
+    height: 1px;
+    background-color: gray;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
 }
 </style>
