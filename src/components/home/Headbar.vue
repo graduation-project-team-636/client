@@ -35,15 +35,27 @@
         >
       </el-submenu>
 
-      <router-link to="/register" class="myButton">
+      <router-link v-if="seenLogout" to="/register" class="myButton">
         <el-menu-item index="5" style="float: right;"
           >注册</el-menu-item
         ></router-link
       >
 
-      <router-link to="/login" class="myButton"
+      <router-link v-if="seenLogout" to="/login" class="myButton"
         ><el-menu-item index="4" style="float: right;"
           >登录</el-menu-item
+        ></router-link
+      >
+
+      <router-link v-if="seenLogin" to="/login" class="myButton"
+        ><el-menu-item index="6" style="float: right;"
+          >我的学习</el-menu-item
+        ></router-link
+      >
+
+      <router-link v-if="seenLogin" to="/register" class="myButton">
+        <el-menu-item index="7" style="float: right;"
+          >创作中心</el-menu-item
         ></router-link
       >
     </el-menu>
@@ -106,6 +118,14 @@ export default {
         .catch(function(error) {
           self.$message.error(error);
         });
+    }
+  },
+  computed: {
+    seenLogin() {
+      return this.$store.state.isLogin;
+    },
+    seenLogout() {
+      return !this.$store.state.isLogin;
     }
   }
 };
