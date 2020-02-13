@@ -65,7 +65,7 @@
           </div>
         </div>
 
-        <div class="main">
+        <div class="tail">
           <el-container>
             <el-header style="padding: 0px;"
               ><el-radio-group v-model="order" size="small">
@@ -73,7 +73,10 @@
                 <el-radio-button label="1">最热</el-radio-button>
               </el-radio-group></el-header
             >
-            <el-main style="padding: 0px;"><CourseCard></CourseCard></el-main>
+            <el-main style="padding: 0px;">
+              <div class="classification_coursecard">
+                <CourseCard></CourseCard></div
+            ></el-main>
 
             <el-pagination background layout="prev, pager, next" :total="1000">
             </el-pagination>
@@ -228,6 +231,14 @@ export default {
     width: 1400px;
     padding-top: 20px;
     padding-bottom: 20px;
+    background-color: white;
+  }
+
+  .tail {
+    margin: auto;
+    width: 1400px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 
   .divide {
@@ -273,6 +284,10 @@ export default {
 
   .activeStyle:hover {
     color: white;
+  }
+
+  .classification_coursecard {
+    width: 250px;
   }
 }
 </style>

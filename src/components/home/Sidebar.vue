@@ -22,7 +22,7 @@
         <span style="float: right;"><i class="el-icon-caret-right"></i></span>
       </el-menu-item>
       <el-menu-item index="4">
-        <span slot="title">云计算 / 大数据</span>
+        <span slot="title">云计算 / 大数据 / 容器</span>
         <span style="float: right;"><i class="el-icon-caret-right"></i></span>
       </el-menu-item>
       <el-menu-item index="5">
@@ -30,7 +30,7 @@
         <span style="float: right;"><i class="el-icon-caret-right"></i></span>
       </el-menu-item>
       <el-menu-item index="6">
-        <span slot="title"> 3D动画 / 游戏</span>
+        <span slot="title"> UI设计 / 3D动画 / 游戏</span>
         <span style="float: right;"><i class="el-icon-caret-right"></i></span>
       </el-menu-item>
     </el-menu>

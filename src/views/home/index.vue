@@ -1,32 +1,57 @@
 <template>
   <div id="home">
-    <el-row id="head">
-      <el-col :span="24"><Headbar activeIndex="1"></Headbar></el-col>
-    </el-row>
-
-    <el-row id="display" :gutter="0" type="flex" justify="center">
-      <el-col :xs="0" :sm="6" :md="5" :lg="4" :xl="3"
-        ><Sidebar></Sidebar
-      ></el-col>
-      <el-col :xs="24" :sm="18" :md="15" :lg="14" :xl="11"
-        ><Carousel></Carousel
-      ></el-col>
-    </el-row>
-
-    <el-row id="recommend" :gutter="0" type="flex" justify="center">
-      <el-col :xs="24" :sm="24" :md="20" :lg="18" :xl="14"
-        ><div>
+    <el-container style="height: 100%;">
+      <el-header style="padding: 0px;"
+        ><Headbar activeIndex="1"></Headbar
+      ></el-header>
+      <el-main>
+        <div id="home_main">
           <div>
-            <h2>热门课程</h2>
-            <CourseCard></CourseCard>
+            <el-container>
+              <el-aside width="250px" style="padding: 0px 0px 1px 0px;">
+                <Sidebar></Sidebar
+              ></el-aside>
+              <el-main style="padding: 0px;"><Carousel></Carousel></el-main>
+            </el-container>
           </div>
 
           <div>
-            <h2>最新课程</h2>
-            <CourseCard></CourseCard>
-          </div></div
-      ></el-col>
-    </el-row>
+            <div>
+              <h2>热门课程</h2>
+              <div class="home_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="home_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="home_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="home_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="home_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="home_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="home_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="home_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+            </div>
+
+            <div>
+              <h2>最新课程</h2>
+              <div class="home_coursecard"><CourseCard></CourseCard></div>
+            </div>
+          </div>
+        </div>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
@@ -38,7 +63,7 @@ import Carousel from "@/components/home/Carousel.vue";
 import CourseCard from "@/components/home/CourseCard.vue";
 
 export default {
-  name: "home",
+  name: "home_main",
   components: {
     Headbar,
     Sidebar,
@@ -50,8 +75,18 @@ export default {
 
 <style lang="scss">
 #home {
-  #display {
-    margin-top: 20px;
+  height: 100%;
+
+  #home_main {
+    width: 1200px;
+    margin: auto;
+  }
+
+  .home_coursecard {
+    width: 250px;
+    display: inline-block;
+    margin-right: 50px;
+    margin-bottom: 20px;
   }
 }
 </style>
