@@ -54,7 +54,17 @@ const routes = [
     component: () => import("../views/creating/index.vue"),
     meta: {
       needLogin: true
-    }
+    },
+    children: [
+      {
+        path: "course/create",
+        name: "coursecreate",
+        component: () => import("../views/creating/coursecreate.vue"),
+        meta: {
+          needLogin: true
+        }
+      }
+    ]
   },
   {
     path: "/mystudy",

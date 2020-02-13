@@ -52,7 +52,11 @@
         ></router-link
       >
 
-      <router-link v-if="seenLogin" to="/creating" class="myButton">
+      <router-link
+        v-if="seenLogin"
+        to="/creating/course/create"
+        class="myButton"
+      >
         <el-menu-item index="7" style="float: right;"
           >创作中心</el-menu-item
         ></router-link

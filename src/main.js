@@ -20,7 +20,7 @@ new Vue({
 }).$mount("#app");
 
 // 路由跳转前检测是否登录，未登录的话不能进入一些页面
-router.beforeResolve((to, from, next) => {
+router.beforeEach((to, from, next) => {
   if (to.meta.needLogin == true) {
     if (store.state.isLogin == true) {
       // 已登录可进入

@@ -74,6 +74,9 @@
               </el-radio-group></el-header
             >
             <el-main style="padding: 0px;"><CourseCard></CourseCard></el-main>
+
+            <el-pagination background layout="prev, pager, next" :total="1000">
+            </el-pagination>
           </el-container>
         </div>
       </el-main>
