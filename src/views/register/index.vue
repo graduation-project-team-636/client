@@ -197,13 +197,14 @@ export default {
           var ThisRouter = this.$router;
           var ThisAxios = this.axios;
           var ThisStore = this.$store;
+          var self = this;
 
           this.axios
             .post(registerUrl, registerParams, config)
             .then(function(response) {
               //用户名已存在
               if (response.data.error_code == 21) {
-                ThisMessage.error(response.data.message);
+                ThisMessage.error(self.$store.state.errorText21);
               }
               // 成功
               else if (response.data.error_code == 0) {
@@ -214,22 +215,26 @@ export default {
                     if (response.data.error_code == 0) {
                       ThisStore.commit("loginSet", response.data.data);
                       ThisRouter.push({ path: "/" });
+                    } else if (response.data.error_code == 11) {
+                      ThisMessage.error(self.$store.state.errorText11);
+                    } else if (response.data.error_code == 12) {
+                      ThisMessage.error(self.$store.state.errorText12);
                     } else {
-                      ThisMessage.error(response.data.message);
+                      ThisMessage.error(self.$store.state.errorTextUnknown);
                     }
                   })
                   .catch(function(error) {
                     ThisMessage.error(error);
                   });
               } else {
-                ThisMessage.error("发生了未知错误");
+                ThisMessage.error(self.$store.state.errorTextUnknown);
               }
             })
             .catch(function(error) {
               ThisMessage.error(error);
             });
         } else {
-          this.$message.error("输入不符合规范");
+          this.$message.error(this.$store.state.errorTextInput);
           return false;
         }
       });

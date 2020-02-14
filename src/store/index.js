@@ -12,7 +12,17 @@ export default new Vuex.Store({
     username: "",
     groupid: 2, //用户组，1为管理员，2为普通用户
     reg_time: "",
-    avatar: "" //用户头像
+    avatar: "", //用户头像
+
+    //一下是返回错误码对应的错误信息
+    errorText0: "操作成功",
+    errorText11: "用户名不存在",
+    errorText12: "密码不正确",
+    errorText13: "请先登录",
+    errorText21: "用户名已存在",
+    errorText22: "您不是管理员",
+    errorTextUnknown: "发生了未知错误",
+    errorTextInput: "输入不符合规范"
   },
   mutations: {
     avatarSet(state, param) {

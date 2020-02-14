@@ -76,11 +76,11 @@ export default {
             if (response.data.error_code == 0) {
               self.imageUrl = response.data.data.avatar;
               self.$store.commit("avatarSet", response.data.data.avatar);
-              ThisMessage.success(response.data.message);
+              ThisMessage.success(self.$store.state.errorText0);
             } else if (response.data.error_code == 13) {
-              ThisMessage.error(response.data.message);
+              ThisMessage.error(self.$store.state.errorText13);
             } else {
-              ThisMessage.error("发生了未知错误");
+              ThisMessage.error(self.$store.state.errorTextUnknown);
             }
           })
           .catch(function(error) {

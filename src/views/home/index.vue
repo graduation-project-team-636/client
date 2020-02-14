@@ -27,7 +27,7 @@
               <div class="home_coursecard">
                 <CourseCard></CourseCard>
               </div>
-              <div class="home_coursecard">
+              <div class="home_coursecard_last">
                 <CourseCard></CourseCard>
               </div>
               <div class="home_coursecard">
@@ -39,7 +39,7 @@
               <div class="home_coursecard">
                 <CourseCard></CourseCard>
               </div>
-              <div class="home_coursecard">
+              <div class="home_coursecard_last">
                 <CourseCard></CourseCard>
               </div>
             </div>
@@ -85,7 +85,14 @@ export default {
   .home_coursecard {
     width: 250px;
     display: inline-block;
-    margin-right: 50px;
+    margin-right: 66px;
+    margin-bottom: 20px;
+  }
+
+  .home_coursecard_last {
+    width: 250px;
+    display: inline-block;
+    margin-right: 0px;
     margin-bottom: 20px;
   }
 }

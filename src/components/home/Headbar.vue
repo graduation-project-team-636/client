@@ -107,9 +107,9 @@ export default {
             self.$store.commit("logoutSet");
             self.$router.push({ path: "/" });
           } else if (response.data.error_code == 13) {
-            self.$message.error("用户未登录");
+            self.$message.error(self.$store.state.errorText13);
           } else {
-            self.$message.error("发生了未知错误");
+            self.$message.error(self.$store.state.errorTextUnknown);
           }
         })
         .catch(function(error) {

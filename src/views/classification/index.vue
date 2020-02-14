@@ -17,7 +17,7 @@
                 <div
                   class="labelButton"
                   v-for="(category_data, index) in category_datas"
-                  :key="category_data.id"
+                  :key="category_data.code"
                   v-bind:class="{
                     activeStyle: index == current_category_index
                   }"
@@ -45,7 +45,7 @@
                 <div
                   class="labelButton"
                   v-for="(tag_data, index) in tag_datas"
-                  :key="tag_data.id"
+                  :key="tag_data.code"
                   v-on:click.prevent="tag_click(index, tag_data.code)"
                   v-bind:class="{ activeStyle: index == current_tag_index }"
                 >
@@ -74,6 +74,24 @@
               </el-radio-group></el-header
             >
             <el-main style="padding: 0px;">
+              <div class="classification_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="classification_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="classification_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="classification_coursecard">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="classification_coursecard_last">
+                <CourseCard></CourseCard>
+              </div>
+              <div class="classification_coursecard">
+                <CourseCard></CourseCard>
+              </div>
               <div class="classification_coursecard">
                 <CourseCard></CourseCard></div
             ></el-main>
@@ -288,6 +306,16 @@ export default {
 
   .classification_coursecard {
     width: 250px;
+    display: inline-block;
+    margin-right: 37px;
+    margin-bottom: 20px;
+  }
+
+  .classification_coursecard_last {
+    width: 250px;
+    display: inline-block;
+    margin-right: 0px;
+    margin-bottom: 20px;
   }
 }
 </style>
