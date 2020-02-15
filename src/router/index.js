@@ -73,6 +73,11 @@ const routes = [
     meta: {
       needLogin: true
     }
+  },
+  {
+    path: "/course",
+    name: "course",
+    component: () => import("../views/course/index.vue")
   }
 ];
 

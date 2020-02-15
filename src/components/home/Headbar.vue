@@ -7,6 +7,7 @@
       background-color="#2d3a4b"
       text-color="#fff"
       active-text-color="#ffd04b"
+      style="border: none;"
     >
       <router-link to="/"
         ><el-menu-item index="1" style="float: left;"
@@ -133,13 +134,6 @@ export default {
   padding: 0px;
   margin: 0px;
 
-  .rightAvator {
-    float: right;
-    margin-top: 11px;
-    margin-bottom: 5px;
-    margin-left: 5px;
-    margin-right: 20px;
-  }
   .myButton {
     color: white;
     text-decoration: none;

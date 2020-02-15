@@ -49,7 +49,7 @@
               </div>
             </el-aside>
 
-            <el-main><CourseList></CourseList></el-main>
+            <el-main><CourseList></CourseList> </el-main>
           </el-container>
         </div>
       </el-main>

@@ -93,7 +93,7 @@ export default {
         ],
         introduction: [
           { required: true, message: "请填写课程简介", trigger: "blur" },
-          { min: 1, max: 50, message: "长度在 1 到 50 个字符", trigger: "blur" }
+          { min: 1, max: 40, message: "长度在 1 到 40 个字符", trigger: "blur" }
         ],
         category: [
           { required: true, message: "请选择课程分区", trigger: "change" }
