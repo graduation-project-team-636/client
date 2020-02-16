@@ -1,69 +1,80 @@
 <template>
-  <div id="creaing_coursecreate">
-    <el-form
-      :model="ruleForm"
-      :rules="rules"
-      ref="ruleForm"
-      label-width="100px"
-      class="demo-ruleForm"
+  <div id="course_edit_button">
+    <el-button
+      class="course_edit_button_style"
+      @click="edit_button_click_handle"
+      icon="el-icon-setting"
+      round
+      >编辑</el-button
     >
-      <el-form-item label="课程名称" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
-      </el-form-item>
 
-      <el-form-item label="课程简介" prop="introduction">
-        <el-input type="textarea" v-model="ruleForm.introduction"></el-input>
-      </el-form-item>
+    <el-dialog title="课程信息" width="700px" :visible.sync="dialogFormVisible">
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="80px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="课程名称" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
 
-      <el-form-item label="课程分区" prop="category">
-        <el-select
-          @change="category_change_handle"
-          v-model="ruleForm.category"
-          placeholder="请选择课程分区"
-        >
-          <el-option
-            v-for="category_data in category_datas"
-            :key="category_data.code"
-            :label="category_data.text"
-            :value="category_data.code"
-          ></el-option>
-        </el-select>
-      </el-form-item>
+        <el-form-item label="课程简介" prop="introduction">
+          <el-input type="textarea" v-model="ruleForm.introduction"></el-input>
+        </el-form-item>
 
-      <el-form-item label="课程标签" prop="tag">
-        <el-select v-model="ruleForm.tag" placeholder="请选择课程标签">
-          <el-option
-            v-for="tag_data in tag_datas"
-            :key="tag_data.code"
-            :label="tag_data.text"
-            :value="tag_data.code"
-          ></el-option>
-        </el-select>
-      </el-form-item>
+        <el-form-item label="课程分区" prop="category">
+          <el-select
+            @change="category_change_handle"
+            v-model="ruleForm.category"
+            placeholder="请选择课程分区"
+          >
+            <el-option
+              v-for="category_data in category_datas"
+              :key="category_data.code"
+              :label="category_data.text"
+              :value="category_data.code"
+            ></el-option>
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="课程封面" prop="cover">
-        <el-upload
-          class="avatar-uploader"
-          action=""
-          :show-file-list="false"
-          :before-upload="beforeAvatarUpload"
-          v-model="ruleForm.coverFile"
-        >
-          <img
-            v-if="ruleForm.coverUrl"
-            :src="ruleForm.coverUrl"
-            class="avatar"
-          />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </el-form-item>
+        <el-form-item label="课程标签" prop="tag">
+          <el-select v-model="ruleForm.tag" placeholder="请选择课程标签">
+            <el-option
+              v-for="tag_data in tag_datas"
+              :key="tag_data.code"
+              :label="tag_data.text"
+              :value="tag_data.code"
+            ></el-option>
+          </el-select>
+        </el-form-item>
 
-      <el-form-item>
+        <el-form-item label="课程封面" prop="cover">
+          <el-upload
+            class="avatar-uploader"
+            action=""
+            :show-file-list="false"
+            :before-upload="beforeAvatarUpload"
+            v-model="ruleForm.coverFile"
+          >
+            <img
+              v-if="ruleForm.coverUrl"
+              :src="ruleForm.coverUrl"
+              class="avatar"
+            />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitForm('ruleForm')"
-          >立即创建</el-button
+          >确 定</el-button
         >
-      </el-form-item>
-    </el-form>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,6 +89,7 @@ export default {
       }
     };
     return {
+      dialogFormVisible: false,
       ruleForm: {
         name: "",
         introduction: "",
@@ -106,6 +118,7 @@ export default {
       tag_origin_datas: []
     };
   },
+  props: { course_id: Number },
   mounted() {
     this.category_datas = this.$store.state.category_origin_datas;
     //原始数据去除第一个“全部”
@@ -114,8 +127,38 @@ export default {
     this.tag_origin_datas.shift();
   },
   methods: {
+    edit_button_click_handle() {
+      //打开dialog
+      this.dialogFormVisible = true;
+
+      //每次打开都重置数据
+      this.getCourseInfo();
+      this.category_change_handle();
+    },
+    getCourseInfo() {
+      var myParams = {
+        course_id: this.course_id
+      };
+
+      var courseInfoUrl = this.$store.state.baseUrl + "/course/query";
+      var self = this;
+
+      this.axios
+        .get(courseInfoUrl, { params: myParams })
+        .then(function(response) {
+          self.ruleForm.name = response.data.data.course_name;
+          self.ruleForm.introduction = response.data.data.course_introduction;
+          self.ruleForm.category = response.data.data.course_category;
+          self.ruleForm.tag = response.data.data.course_tag;
+          self.ruleForm.coverUrl = response.data.data.course_cover;
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
+    },
     category_change_handle() {
       if (this.ruleForm.category == "fe") {
+        alert(1);
         this.tag_datas = this.myslice(this.tag_origin_datas, 0, 12);
       } else if (this.ruleForm.category == "be") {
         this.tag_datas = this.myslice(this.tag_origin_datas, 12, 25);
@@ -167,48 +210,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var createUrl = this.$store.state.baseUrl + "/course/create/";
-
-          var createParams = new FormData();
-          createParams.append("course_name", this.ruleForm.name);
-          createParams.append(
-            "course_introduction",
-            this.ruleForm.introduction
-          );
-          createParams.append("course_category", this.ruleForm.category);
-          createParams.append("course_tag", this.ruleForm.tag);
-          createParams.append("course_cover", this.ruleForm.coverFile);
-
-          var self = this;
-
-          var config = {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          };
-
-          this.axios
-            .post(createUrl, createParams, config)
-            .then(function(response) {
-              if (response.data.error_code == 0) {
-                self.$router.push({
-                  path: "/course",
-                  query: { course_id: response.data.data.course_id }
-                });
-              } else if (response.data.error_code == 13) {
-                self.$message.error(self.$store.state.errorText13);
-              } else if (response.data.error_code == 22) {
-                self.$message.error(self.$store.state.errorText22);
-              } else {
-                self.$message.error(self.$store.state.errorTextUnknown);
-              }
-            })
-            .catch(function(error) {
-              self.$message.error(error);
-            });
-        } else {
-          this.$message.error(this.$store.state.errorTextInput);
-          return false;
+          this.dialogFormVisible = false;
         }
       });
     }
@@ -217,7 +219,12 @@ export default {
 </script>
 
 <style lang="scss">
-#creaing_coursecreate {
+#course_edit_button {
+  .course_edit_button_style {
+    background-color: transparent;
+    color: #cfd3d9;
+  }
+
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

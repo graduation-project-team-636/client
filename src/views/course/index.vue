@@ -6,16 +6,19 @@
         ><div class="course_head">
           <div class="course_main">
             <el-container style="padding-top: 20px;">
-              <el-aside width="200px"
+              <el-aside width="150px"
                 ><el-image :src="course_cover"></el-image
               ></el-aside>
               <el-main style="padding:0px;">
                 <el-container style="padding: 10px 20px 10px 20px;">
                   <el-aside width="750px"
-                    ><div class="course_title">课程标题</div>
-                    <div class="course_info">课程简介</div>
+                    ><div class="course_title">
+                      {{ course_name }}
+                    </div>
+                    <div class="course_info">{{ course_introduction }}</div>
                     <div class="course_attendence">
-                      参加人数 <i class="el-icon-user"></i>15354
+                      参加人数 <i class="el-icon-user"></i>
+                      {{ course_attendance }}
                     </div>
                   </el-aside>
                   <el-main style="padding: 0px;">
@@ -28,12 +31,9 @@
                       >
                     </div>
                     <div class="course_button_div1">
-                      <el-button
-                        class="course_button"
-                        icon="el-icon-setting"
-                        round
-                        >编辑</el-button
-                      >
+                      <CourseEditButton
+                        :course_id="course_id"
+                      ></CourseEditButton>
                     </div>
 
                     <div class="course_button_div2">
@@ -63,7 +63,7 @@
                 <span style="margin-left: 10px">{{ scope.row.date }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="视频标题" width="800">
+            <el-table-column label="视频标题" width="870">
               <template slot-scope="scope">
                 <span>{{ scope.row.name }}</span>
               </template>
@@ -92,12 +92,18 @@
 
 <script>
 import Headbar from "@/components/home/Headbar.vue";
+import CourseEditButton from "@/components/course/CourseEditButton.vue";
 
 export default {
   data() {
     return {
-      course_cover:
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
+      course_id: 0,
+      course_name: "",
+      course_introduction: "",
+      course_category: "",
+      course_tag: "",
+      course_cover: "",
+      course_attendance: 0,
       tableData: [
         {
           date: "2016-05-02",
@@ -111,9 +117,36 @@ export default {
     };
   },
   components: {
-    Headbar
+    Headbar,
+    CourseEditButton
+  },
+  mounted() {
+    this.getCourseInfo();
   },
   methods: {
+    getCourseInfo() {
+      var myParams = {
+        course_id: this.$route.query.course_id
+      };
+
+      var courseInfoUrl = this.$store.state.baseUrl + "/course/query";
+      var self = this;
+
+      this.axios
+        .get(courseInfoUrl, { params: myParams })
+        .then(function(response) {
+          self.course_id = response.data.data.course_id;
+          self.course_name = response.data.data.course_name;
+          self.course_introduction = response.data.data.course_introduction;
+          self.course_category = response.data.data.course_category;
+          self.course_tag = response.data.data.course_tag;
+          self.course_cover = response.data.data.course_cover;
+          self.course_attendance = response.data.data.course_attendance;
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
+    },
     handleEdit(index, row) {
       alert(index, row);
     },
@@ -149,11 +182,12 @@ export default {
 
   .course_table_upload {
     float: right;
+    margin-right: 18px;
     margin-top: 20px;
   }
 
   .course_title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     word-wrap: break-word;
     word-break: break-all;
