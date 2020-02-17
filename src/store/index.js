@@ -21,6 +21,7 @@ export default new Vuex.Store({
     errorText13: "请先登录",
     errorText21: "用户名已存在",
     errorText22: "您不是管理员",
+    errorText31: "操作对象不存在",
     errorTextUnknown: "发生了未知错误",
     errorTextInput: "输入不符合规范",
 

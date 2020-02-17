@@ -90,6 +90,8 @@ export default {
     };
     return {
       dialogFormVisible: false,
+      // 用户是否有上传图片，没有的话，按原课程图片上传
+      isUploadImg: false,
       ruleForm: {
         name: "",
         introduction: "",
@@ -132,8 +134,8 @@ export default {
       this.dialogFormVisible = true;
 
       //每次打开都重置数据
+      this.isUploadImg = false;
       this.getCourseInfo();
-      this.category_change_handle();
     },
     getCourseInfo() {
       var myParams = {
@@ -151,6 +153,12 @@ export default {
           self.ruleForm.category = response.data.data.course_category;
           self.ruleForm.tag = response.data.data.course_tag;
           self.ruleForm.coverUrl = response.data.data.course_cover;
+
+          // 注意，由于使用了promise，有异步同步问题，必须在then语句发生后，data才有数据
+          self.category_change_handle();
+
+          // 将返回的图片url转化为blob对象，后面可以以file参数填充到formdata
+          self.imgUrlToFile(self.ruleForm.coverUrl);
         })
         .catch(function(error) {
           self.$message.error(error);
@@ -158,7 +166,6 @@ export default {
     },
     category_change_handle() {
       if (this.ruleForm.category == "fe") {
-        alert(1);
         this.tag_datas = this.myslice(this.tag_origin_datas, 0, 12);
       } else if (this.ruleForm.category == "be") {
         this.tag_datas = this.myslice(this.tag_origin_datas, 12, 25);
@@ -171,6 +178,52 @@ export default {
       } else if (this.ruleForm.category == "3d") {
         this.tag_datas = this.myslice(this.tag_origin_datas, 44, 50);
       }
+    },
+    imgUrlToFile(url) {
+      var self = this;
+      var imgLink = url;
+      var tempImage = new Image();
+      //如果图片url是网络url，要加下一句代码
+      tempImage.crossOrigin = "*";
+      tempImage.onload = function() {
+        var base64 = self.getBase64Image(tempImage);
+        var imgblob = self.base64toBlob(base64);
+        var filename = self.getFileName(self.ruleForm.coverUrl);
+        self.ruleForm.coverFile = self.blobToFile(imgblob, filename);
+      };
+      tempImage.src = imgLink;
+    },
+    getBase64Image(img) {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+      var dataURL = canvas.toDataURL("image/" + ext);
+      return dataURL;
+    },
+    base64toBlob(base64) {
+      let arr = base64.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], { type: mime });
+    },
+    blobToFile(blob, filename) {
+      // edge浏览器不支持new File对象，所以用一下方法兼容
+      blob.lastModifiedDate = new Date();
+      blob.name = filename;
+      return blob;
+    },
+    getFileName(url) {
+      // 获取到文件名
+      let pos = url.lastIndexOf("/"); // 查找最后一个/的位置
+      return url.substring(pos + 1); // 截取最后一个/位置到字符长度，也就是截取文件名
     },
     myslice(array, start, end) {
       var result = [];
@@ -191,6 +244,7 @@ export default {
       } else {
         this.ruleForm.coverFile = file;
         this.imagePreview(this.ruleForm.coverFile);
+        this.isUploadImg = true;
       }
 
       // 不使用upload自带的上传方式，而是使用axios，所以阻止upload自带的上传
@@ -211,6 +265,57 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.dialogFormVisible = false;
+
+          var modifyUrl = this.$store.state.baseUrl + "/course/modify/";
+
+          var modifyParams = new FormData();
+          modifyParams.append("course_id", this.course_id);
+          modifyParams.append("course_name", this.ruleForm.name);
+          modifyParams.append(
+            "course_introduction",
+            this.ruleForm.introduction
+          );
+          modifyParams.append("course_category", this.ruleForm.category);
+          modifyParams.append("course_tag", this.ruleForm.tag);
+          if (this.isUploadImg) {
+            modifyParams.append("course_cover", this.ruleForm.coverFile);
+          } else {
+            var filename = this.getFileName(this.ruleForm.coverUrl);
+            modifyParams.append(
+              "course_cover",
+              this.ruleForm.coverFile,
+              filename
+            );
+          }
+
+          var self = this;
+
+          var config = {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          };
+
+          this.axios
+            .post(modifyUrl, modifyParams, config)
+            .then(function(response) {
+              if (response.data.error_code == 0) {
+                self.$message.success(self.$store.state.errorText0);
+              } else if (response.data.error_code == 13) {
+                self.$message.error(self.$store.state.errorText13);
+              } else if (response.data.error_code == 22) {
+                self.$message.error(self.$store.state.errorText22);
+              } else if (response.data.error_code == 31) {
+                self.$message.error(self.$store.state.errorText31);
+              } else {
+                self.$message.error(self.$store.state.errorTextUnknown);
+              }
+            })
+            .catch(function(error) {
+              self.$message.error(error);
+            });
+        } else {
+          this.$message.error(this.$store.state.errorTextInput);
         }
       });
     }
