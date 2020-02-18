@@ -107,13 +107,22 @@ export default {
     };
   },
   mounted() {
-    this.category_datas = this.$store.state.category_origin_datas;
-    //原始数据去除第一个“全部”
-    this.category_datas.shift();
-    this.tag_origin_datas = this.$store.state.tag_origin_datas;
-    this.tag_origin_datas.shift();
+    this.category_datas = this.get_category_tag_data(
+      this.$store.state.category_origin_datas
+    );
+    this.tag_origin_datas = this.get_category_tag_data(
+      this.$store.state.tag_origin_datas
+    );
   },
   methods: {
+    get_category_tag_data(origin_data) {
+      var result = [];
+      //原始数据去除第一个“全部”
+      for (var i = 1; i < origin_data.length; i++) {
+        result.push(origin_data[i]);
+      }
+      return result;
+    },
     category_change_handle() {
       if (this.ruleForm.category == "fe") {
         this.tag_datas = this.myslice(this.tag_origin_datas, 0, 12);
