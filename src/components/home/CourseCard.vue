@@ -3,20 +3,17 @@
     <el-row>
       <el-col :span="24">
         <el-card :body-style="{ padding: '0px' }">
-          <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-          />
+          <img :src="course_cover" class="image" />
           <div style="padding: 14px;">
-            <span class="courseTitle">课程标题</span>
+            <span class="courseTitle">{{ course_name }}</span>
             <div class="bottom clearfix">
               <div class="intro">
-                参加人数 <i class="el-icon-user"></i>15354
+                参加人数 <i class="el-icon-user"></i>{{ course_attendance }}
               </div>
               <div class="intro">
-                课程简介课程简介课程简介课程简介课程简介课程简介课程简介
+                {{ course_introduction }}
               </div>
-              <el-button type="text" class="button">参加课程</el-button>
+              <el-button type="text" class="button">管理</el-button>
             </div>
           </div>
         </el-card>
@@ -30,6 +27,15 @@ export default {
   name: "home_coursecard",
   data() {
     return {};
+  },
+  props: {
+    course_id: Number,
+    course_name: String,
+    course_introduction: String,
+    course_category: String,
+    course_tag: String,
+    course_cover: String,
+    course_attendance: Number
   }
 };
 </script>

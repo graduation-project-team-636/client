@@ -68,35 +68,43 @@
         <div class="tail">
           <el-container>
             <el-header style="padding: 0px;"
-              ><el-radio-group v-model="order" size="small">
-                <el-radio-button label="0">最新</el-radio-button>
-                <el-radio-button label="1">最热</el-radio-button>
+              ><el-radio-group
+                @change="order_change_handle"
+                v-model="order"
+                size="small"
+              >
+                <el-radio-button label="1">最新</el-radio-button>
+                <el-radio-button label="2">最热</el-radio-button>
               </el-radio-group></el-header
             >
             <el-main style="padding: 0px;">
-              <div class="classification_coursecard">
-                <CourseCard></CourseCard>
+              <div
+                v-for="(course, index) in course_data"
+                :key="index"
+                v-bind:class="{
+                  classification_coursecard: (index + 1) % 5 != 0,
+                  classification_coursecard_last: (index + 1) % 5 == 0
+                }"
+              >
+                <CourseCard
+                  :course_id="course.course_id"
+                  :course_name="course.course_name"
+                  :course_introduction="course.course_introduction"
+                  :course_category="course.course_category"
+                  :course_tag="course.course_tag"
+                  :course_cover="course.course_cover"
+                  :course_attendance="course.course_attendance"
+                ></CourseCard>
               </div>
-              <div class="classification_coursecard">
-                <CourseCard></CourseCard>
-              </div>
-              <div class="classification_coursecard">
-                <CourseCard></CourseCard>
-              </div>
-              <div class="classification_coursecard">
-                <CourseCard></CourseCard>
-              </div>
-              <div class="classification_coursecard_last">
-                <CourseCard></CourseCard>
-              </div>
-              <div class="classification_coursecard">
-                <CourseCard></CourseCard>
-              </div>
-              <div class="classification_coursecard">
-                <CourseCard></CourseCard></div
-            ></el-main>
+            </el-main>
 
-            <el-pagination background layout="prev, pager, next" :total="1000">
+            <el-pagination
+              :current-page="page"
+              style="margin: auto;margin-top: 20px;"
+              background
+              layout="prev, pager, next"
+              :total="1000"
+            >
             </el-pagination>
           </el-container>
         </div>
@@ -113,14 +121,16 @@ export default {
   name: "classification",
   data() {
     return {
-      order: "0",
+      order: 1,
       category_select: "category_all",
       current_category_index: 0,
       category_datas: [],
       tag_select: "tag_all",
       current_tag_index: 0,
       tag_datas: [],
-      tag_origin_datas: []
+      tag_origin_datas: [],
+      page: 1,
+      course_data: []
     };
   },
   components: {
@@ -131,6 +141,8 @@ export default {
     this.category_datas = this.$store.state.category_origin_datas;
     this.tag_origin_datas = this.$store.state.tag_origin_datas;
     this.tag_datas = this.tag_origin_datas;
+
+    this.get_course_data();
   },
   methods: {
     // click执行了两遍，有冒泡存在，使用click.prevent
@@ -140,10 +152,14 @@ export default {
       this.current_tag_index = 0;
       this.tag_select = "tag_all";
       this.tag_datas_compute();
+
+      this.get_course_data();
     },
     tag_click(index, value) {
       this.current_tag_index = index;
       this.tag_select = value;
+
+      this.get_course_data();
     },
     tag_datas_compute() {
       if (this.category_select == "category_all") {
@@ -170,6 +186,35 @@ export default {
         result.push(array[i]);
       }
       return result;
+    },
+    order_change_handle() {
+      this.get_course_data();
+    },
+    get_course_data() {
+      var myParams = {
+        // 选择全部时，把tag_all变为all，category_all变为all，其它值则不变
+        course_category:
+          this.category_select == "category_all" ? "all" : this.category_select,
+        course_tag: this.tag_select == "tag_all" ? "all" : this.tag_select,
+        order: this.order,
+        page: this.page
+      };
+
+      var courseDataUrl = this.$store.state.baseUrl + "/course/access";
+      var self = this;
+
+      this.axios
+        .get(courseDataUrl, { params: myParams })
+        .then(function(response) {
+          if (response.data.error_code == 0) {
+            self.course_data = response.data.data.course;
+          } else {
+            self.$message.error(this.$store.state.errorTextUnknown);
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
     }
   },
   computed: {}

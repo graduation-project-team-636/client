@@ -135,13 +135,19 @@ export default {
       this.axios
         .get(courseInfoUrl, { params: myParams })
         .then(function(response) {
-          self.course_id = response.data.data.course_id;
-          self.course_name = response.data.data.course_name;
-          self.course_introduction = response.data.data.course_introduction;
-          self.course_category = response.data.data.course_category;
-          self.course_tag = response.data.data.course_tag;
-          self.course_cover = response.data.data.course_cover;
-          self.course_attendance = response.data.data.course_attendance;
+          if (response.data.error_code == 0) {
+            self.course_id = response.data.data.course_id;
+            self.course_name = response.data.data.course_name;
+            self.course_introduction = response.data.data.course_introduction;
+            self.course_category = response.data.data.course_category;
+            self.course_tag = response.data.data.course_tag;
+            self.course_cover = response.data.data.course_cover;
+            self.course_attendance = response.data.data.course_attendance;
+          } else if (response.data.error_code == 31) {
+            self.$message.error(this.$store.state.errorText31);
+          } else {
+            self.$message.error(this.$store.state.errorTextUnknown);
+          }
         })
         .catch(function(error) {
           self.$message.error(error);
