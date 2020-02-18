@@ -23,12 +23,9 @@
                   </el-aside>
                   <el-main style="padding: 0px;">
                     <div class="course_button_div1">
-                      <el-button
-                        class="course_button"
-                        icon="el-icon-delete"
-                        round
-                        >删除</el-button
-                      >
+                      <CourseDeleteButton
+                        :course_id="course_id"
+                      ></CourseDeleteButton>
                     </div>
                     <div class="course_button_div1">
                       <CourseEditButton
@@ -93,6 +90,7 @@
 <script>
 import Headbar from "@/components/home/Headbar.vue";
 import CourseEditButton from "@/components/course/CourseEditButton.vue";
+import CourseDeleteButton from "@/components/course/CourseDeleteButton.vue";
 
 export default {
   data() {
@@ -118,7 +116,8 @@ export default {
   },
   components: {
     Headbar,
-    CourseEditButton
+    CourseEditButton,
+    CourseDeleteButton
   },
   mounted() {
     this.getCourseInfo();

@@ -3,9 +3,17 @@
     <el-row>
       <el-col :span="24">
         <el-card :body-style="{ padding: '0px' }">
-          <img :src="course_cover" class="image" />
+          <img
+            v-on:click.prevent="course_click_handle"
+            :src="course_cover"
+            class="image"
+          />
           <div style="padding: 14px;">
-            <span class="courseTitle">{{ course_name }}</span>
+            <span
+              v-on:click.prevent="course_click_handle"
+              class="courseTitle"
+              >{{ course_name }}</span
+            >
             <div class="bottom clearfix">
               <div class="intro">
                 参加人数 <i class="el-icon-user"></i>{{ course_attendance }}
@@ -13,7 +21,12 @@
               <div class="intro">
                 {{ course_introduction }}
               </div>
-              <el-button type="text" class="button">管理</el-button>
+              <el-button
+                v-on:click.prevent="course_click_handle"
+                type="text"
+                class="button"
+                >管理</el-button
+              >
             </div>
           </div>
         </el-card>
@@ -36,6 +49,14 @@ export default {
     course_tag: String,
     course_cover: String,
     course_attendance: Number
+  },
+  methods: {
+    course_click_handle() {
+      this.$router.push({
+        path: "/course",
+        query: { course_id: this.course_id }
+      });
+    }
   }
 };
 </script>
@@ -44,6 +65,7 @@ export default {
 #home_coursecard {
   .courseTitle {
     color: black;
+    cursor: pointer;
   }
 
   .intro {
@@ -66,6 +88,7 @@ export default {
     width: 100%;
     height: 160px;
     display: block;
+    cursor: pointer;
   }
 
   .clearfix:before,
