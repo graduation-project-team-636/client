@@ -80,6 +80,7 @@
 
 <script>
 export default {
+  inject: ["reload"], //注入App里的reload方法
   data() {
     const validateCover = (rule, value, callback) => {
       if (this.ruleForm.coverFile == "") {
@@ -310,6 +311,7 @@ export default {
             .then(function(response) {
               if (response.data.error_code == 0) {
                 self.$message.success(self.$store.state.errorText0);
+                self.reload();
               } else if (response.data.error_code == 13) {
                 self.$message.error(self.$store.state.errorText13);
               } else if (response.data.error_code == 22) {

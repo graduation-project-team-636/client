@@ -51,11 +51,11 @@ export default {
               path: "/classification"
             });
           } else if (response.data.error_code == 13) {
-            self.$message.error(this.$store.state.errorText13);
+            self.$message.error(self.$store.state.errorText13);
           } else if (response.data.error_code == 22) {
-            self.$message.error(this.$store.state.errorText22);
+            self.$message.error(self.$store.state.errorText22);
           } else if (response.data.error_code == 31) {
-            self.$message.error(this.$store.state.errorText31);
+            self.$message.error(self.$store.state.errorText31);
           }
         })
         .catch(function(error) {
