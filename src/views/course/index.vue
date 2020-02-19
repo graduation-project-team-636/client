@@ -34,12 +34,9 @@
                     </div>
 
                     <div class="course_button_div2">
-                      <el-button
-                        class="course_button"
-                        icon="el-icon-caret-right"
-                        round
-                        >退出课程</el-button
-                      >
+                      <CourseJoinButton
+                        :course_id="course_id"
+                      ></CourseJoinButton>
                     </div>
                   </el-main>
                 </el-container>
@@ -91,6 +88,7 @@
 import Headbar from "@/components/home/Headbar.vue";
 import CourseEditButton from "@/components/course/CourseEditButton.vue";
 import CourseDeleteButton from "@/components/course/CourseDeleteButton.vue";
+import CourseJoinButton from "@/components/course/CourseJoinButton.vue";
 
 export default {
   data() {
@@ -117,7 +115,8 @@ export default {
   components: {
     Headbar,
     CourseEditButton,
-    CourseDeleteButton
+    CourseDeleteButton,
+    CourseJoinButton
   },
   mounted() {
     this.getCourseInfo();
