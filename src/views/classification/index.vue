@@ -99,11 +99,13 @@
             </el-main>
 
             <el-pagination
-              :current-page="page"
+              :current-page.sync="page"
               style="margin: auto;margin-top: 20px;"
               background
+              :page-size="1"
               layout="prev, pager, next"
-              :total="1000"
+              @current-change="page_change_handle"
+              :total="pageTotal"
             >
             </el-pagination>
           </el-container>
@@ -130,6 +132,7 @@ export default {
       tag_datas: [],
       tag_origin_datas: [],
       page: 1,
+      pageTotal: 10, //总页数乘以10倍得pageTotal
       course_data: []
     };
   },
@@ -141,7 +144,7 @@ export default {
     this.category_datas = this.$store.state.category_origin_datas;
     this.tag_origin_datas = this.$store.state.tag_origin_datas;
     this.tag_datas = this.tag_origin_datas;
-
+    this.page_compute();
     this.get_course_data();
   },
   methods: {
@@ -152,14 +155,42 @@ export default {
       this.current_tag_index = 0;
       this.tag_select = "tag_all";
       this.tag_datas_compute();
-
+      this.page_compute();
       this.get_course_data();
     },
     tag_click(index, value) {
       this.current_tag_index = index;
       this.tag_select = value;
-
+      this.page_compute();
       this.get_course_data();
+    },
+    page_change_handle() {
+      this.get_course_data();
+    },
+    page_compute() {
+      var myParams = {
+        course_category:
+          this.category_select == "category_all" ? "all" : this.category_select,
+        course_tag: this.tag_select == "tag_all" ? "all" : this.tag_select
+      };
+
+      var url = this.$store.state.baseUrl + "/course/total_num";
+      var self = this;
+
+      this.axios
+        .get(url, { params: myParams })
+        .then(function(response) {
+          if (response.data.error_code == 0) {
+            var num = response.data.data.num;
+            // 以20个数据为一页
+            self.pageTotal = parseInt(num / 20) + 1;
+          } else {
+            self.$message.error(this.$store.state.errorTextUnknown);
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
     },
     tag_datas_compute() {
       if (this.category_select == "category_all") {
