@@ -45,6 +45,8 @@ export default {
             self.$message.error(self.$store.state.errorText31);
           } else if (response.data.error_code == 32) {
             self.$message.success(self.$store.state.errorText32);
+          } else {
+            self.$message.success(self.$store.state.errorTextUnknown);
           }
         })
         .catch(function(error) {
