@@ -6,13 +6,12 @@
       ></el-header>
       <el-main style="padding: 0px;">
         <div class="main">
-          <el-container style="background-color: white; padding-top: 20px;">
-            <el-aside width="250px"
+          <el-container style="background-color: white; height: 100%">
+            <el-aside
+              width="250px"
+              style="border-right: #c0c4cc solid 1px; padding-top: 20px;"
               ><div class="block">
-                <el-avatar
-                  :size="200"
-                  src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
-                ></el-avatar>
+                <el-avatar :size="200" :src="avatar"></el-avatar>
               </div>
 
               <div class="mystudy_info_block">
@@ -23,15 +22,15 @@
                   </div>
                   <div class="profileItem">
                     <i class="el-icon-time"></i>
-                    <span class="myspan"> 注册时间：</span> {{ reg_time }}
+                    <span class="myspan"> 注册时间：</span>{{ reg_time }}
                   </div>
                   <div class="profileItem">
                     <i class="el-icon-s-custom"></i>
-                    <span class="myspan"> 性别：</span> {{ sex }}
+                    <span class="myspan"> 性别：</span>{{ sex }}
                   </div>
                   <div class="profileItem">
                     <i class="el-icon-location"></i>
-                    <span class="myspan"> 城市：</span> {{ city }}
+                    <span class="myspan"> 城市：</span>{{ city }}
                   </div>
                   <div class="profileItem">
                     <i class="el-icon-edit-outline"></i>
@@ -39,17 +38,29 @@
                   </div>
                   <div class="profileItem">
                     <i class="el-icon-headset"></i>
-                    <span class="myspan"> 爱好：</span> {{ hobby }}
+                    <span class="myspan"> 爱好：</span>{{ hobby }}
                   </div>
                   <div class="profileItem">
                     <i class="el-icon-edit"></i>
-                    <span class="myspan"> 个性签名：</span> {{ signature }}
+                    <span class="myspan"> 个性签名：</span>{{ signature }}
                   </div>
                 </div>
               </div>
             </el-aside>
 
-            <el-main><CourseList></CourseList> </el-main>
+            <el-main
+              ><CourseList
+                v-for="(course, index) in courses"
+                :key="index"
+                :course_id="course.course_id"
+                :course_name="course.course_name"
+                :course_introduction="course.course_introduction"
+                :course_category="course.course_category"
+                :course_tag="course.course_tag"
+                :course_cover="course.course_cover"
+                :course_attendance="course.course_attendance"
+              ></CourseList>
+            </el-main>
           </el-container>
         </div>
       </el-main>
@@ -65,18 +76,91 @@ export default {
   name: "mystudy",
   data() {
     return {
-      reg_time: "",
+      avatar: "",
       name: "",
+      reg_time: "",
       sex: "",
       city: "",
       occupation: "",
       hobby: "",
-      signature: ""
+      signature: "",
+      courses: []
     };
   },
   components: {
     Headbar,
     CourseList
+  },
+  mounted() {
+    this.getUserProfile();
+    this.getUserAttendCourse();
+  },
+  methods: {
+    getUserProfile() {
+      var profileGetUrl = this.$store.state.baseUrl + "/user/profile/";
+      var self = this;
+
+      this.axios
+        .get(profileGetUrl)
+        .then(function(response) {
+          if (response.data.error_code == 0) {
+            self.avatar = response.data.data.avatar;
+            self.name = response.data.data.name;
+            self.reg_time = response.data.data.reg_time.split(" ")[0];
+
+            if (response.data.data.sex == "1") {
+              // 男
+              self.sex = "男";
+            } else {
+              self.sex = "女";
+            }
+
+            self.city =
+              response.data.data.city == "" ? "未知" : response.data.data.city;
+
+            self.occupation =
+              response.data.data.occupation == ""
+                ? "未知"
+                : response.data.data.occupation;
+
+            self.hobby =
+              response.data.data.hobby == "" ? "无" : response.data.data.hobby;
+
+            self.signature =
+              response.data.data.signature == ""
+                ? "无"
+                : response.data.data.signature;
+          }
+          // 用户未登录
+          else if (response.data.error_code == 13) {
+            self.$message.error(self.$store.state.errorText13);
+          } else {
+            self.$message.error(self.$store.state.errorTextUnknown);
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
+    },
+    getUserAttendCourse() {
+      var url = this.$store.state.baseUrl + "/course/attended_by_users/";
+      var self = this;
+
+      this.axios
+        .get(url)
+        .then(function(response) {
+          if (response.data.error_code == 0) {
+            self.courses = response.data.data.course;
+          } else if (response.data.error_code == 13) {
+            self.$message.error(self.$store.state.errorText13);
+          } else {
+            self.$message.error(self.$store.state.errorTextUnknown);
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
+    }
   }
 };
 </script>
@@ -92,7 +176,8 @@ export default {
   }
 
   .mystudy_info_block {
-    margin-left: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .main {
@@ -110,7 +195,8 @@ export default {
   }
 
   .profileItem {
-    margin-top: 20px;
+    margin-top: 15px;
+    line-height: 26px;
     word-wrap: break-word;
     word-break: break-all;
     overflow: hidden;
