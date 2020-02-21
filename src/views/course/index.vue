@@ -54,12 +54,14 @@
             <el-table-column label="时长" width="180">
               <template slot-scope="scope">
                 <i class="el-icon-time"></i>
-                <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                <span style="margin-left: 10px">{{
+                  scope.row.video_duration | secondsFormat
+                }}</span>
               </template>
             </el-table-column>
             <el-table-column label="视频标题" width="870">
               <template slot-scope="scope">
-                <span>{{ scope.row.name }}</span>
+                <span>{{ scope.row.video_name }}</span>
               </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -100,16 +102,7 @@ export default {
       course_tag: "",
       course_cover: "",
       course_attendance: 0,
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎"
-        }
-      ]
+      tableData: []
     };
   },
   components: {
@@ -123,6 +116,7 @@ export default {
   },
   mounted() {
     this.getCourseInfo();
+    this.getAllVideo();
   },
   methods: {
     getCourseInfo() {
@@ -153,6 +147,44 @@ export default {
         .catch(function(error) {
           self.$message.error(error);
         });
+    },
+    getAllVideo() {
+      var myParams = {
+        course_id: this.$route.query.course_id
+      };
+
+      var url = this.$store.state.baseUrl + "/video/access";
+      var self = this;
+
+      this.axios
+        .get(url, { params: myParams })
+        .then(function(response) {
+          if (response.data.error_code == 0) {
+            self.tableData = response.data.data.video;
+          } else {
+            self.$message.error(self.$store.state.errorTextUnknown);
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
+    }
+  },
+  filters: {
+    secondsFormat: function(time) {
+      var formatBit = function(val) {
+        val = +val;
+        return val > 9 ? val : "0" + val;
+      };
+
+      let min = Math.floor(time % 3600);
+      let val =
+        formatBit(Math.floor(time / 3600)) +
+        ":" +
+        formatBit(Math.floor(min / 60)) +
+        ":" +
+        formatBit(time % 60);
+      return val;
     }
   }
 };
