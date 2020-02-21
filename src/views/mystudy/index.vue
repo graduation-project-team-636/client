@@ -11,7 +11,11 @@
               width="250px"
               style="border-right: #c0c4cc solid 1px; padding-top: 20px;"
               ><div class="block">
-                <el-avatar :size="200" :src="avatar"></el-avatar>
+                <el-avatar
+                  :size="200"
+                  :src="avatar"
+                  style="border: #c0c4cc solid 1px; "
+                ></el-avatar>
               </div>
 
               <div class="mystudy_info_block">

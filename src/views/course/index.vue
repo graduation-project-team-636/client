@@ -47,7 +47,7 @@
 
         <div class="course_table">
           <div class="course_table_upload">
-            <el-button type="danger">上传视频</el-button>
+            <VideoUploadButton :course_id="course_id"></VideoUploadButton>
           </div>
 
           <el-table :data="tableData" style="width: 100%">
@@ -64,17 +64,14 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  @click="handleEdit(scope.$index, scope.row)"
-                  >编辑</el-button
-                >
-                <el-button
-                  size="mini"
-                  type="danger"
-                  @click="handleDelete(scope.$index, scope.row)"
-                  >删除</el-button
-                >
+                <VideoEditButton
+                  :tableScope="scope"
+                  class="table_button"
+                ></VideoEditButton>
+                <VideoDeleteButton
+                  :tableScope="scope"
+                  class="table_button"
+                ></VideoDeleteButton>
               </template>
             </el-table-column>
           </el-table>
@@ -89,6 +86,9 @@ import Headbar from "@/components/home/Headbar.vue";
 import CourseEditButton from "@/components/course/CourseEditButton.vue";
 import CourseDeleteButton from "@/components/course/CourseDeleteButton.vue";
 import CourseJoinButton from "@/components/course/CourseJoinButton.vue";
+import VideoUploadButton from "@/components/course/VideoUploadButton.vue";
+import VideoEditButton from "@/components/course/VideoEditButton.vue";
+import VideoDeleteButton from "@/components/course/VideoDeleteButton.vue";
 
 export default {
   data() {
@@ -116,7 +116,10 @@ export default {
     Headbar,
     CourseEditButton,
     CourseDeleteButton,
-    CourseJoinButton
+    CourseJoinButton,
+    VideoUploadButton,
+    VideoEditButton,
+    VideoDeleteButton
   },
   mounted() {
     this.getCourseInfo();
@@ -150,12 +153,6 @@ export default {
         .catch(function(error) {
           self.$message.error(error);
         });
-    },
-    handleEdit(index, row) {
-      alert(index, row);
-    },
-    handleDelete(index, row) {
-      alert(index, row);
     }
   }
 };
@@ -225,6 +222,11 @@ export default {
   .course_button_div2 {
     margin-top: 30px;
     margin-left: 87px;
+  }
+
+  .table_button {
+    float: left;
+    margin-right: 9px;
   }
 }
 </style>

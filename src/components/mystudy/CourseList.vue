@@ -15,9 +15,19 @@
             <div class="mystudy_float">
               <el-button type="primary" round @click="keep_learn_click_handle"
                 >继续学习</el-button
-              ><el-button type="danger" round @click="exit_course_click_handle"
+              ><el-button type="danger" round @click="dialogVisible = true"
                 >退出课程</el-button
               >
+
+              <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+                <span>确定退出此课程？</span>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogVisible = false">取 消</el-button>
+                  <el-button type="danger" @click="exit_course_click_handle"
+                    >确 定</el-button
+                  >
+                </span>
+              </el-dialog>
             </div>
           </div>
         </el-main>
@@ -30,7 +40,7 @@
 export default {
   inject: ["reload"], //注入App里的reload方法
   data() {
-    return {};
+    return { dialogVisible: false };
   },
   props: {
     course_id: Number,
