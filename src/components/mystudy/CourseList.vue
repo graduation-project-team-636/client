@@ -3,7 +3,7 @@
     <el-card>
       <el-container>
         <el-aside width="150px"
-          ><el-image :src="course_cover"></el-image
+          ><el-image class="image" :src="course_cover"></el-image
         ></el-aside>
         <el-main style="padding: 10px 20px 10px 20px;">
           <div class="mystudy_title">{{ course_name }}</div>
@@ -125,6 +125,11 @@ export default {
     display: block;
     float: right;
     margin-top: px;
+  }
+
+  .image {
+    width: 100%;
+    height: 150px;
   }
 }
 </style>

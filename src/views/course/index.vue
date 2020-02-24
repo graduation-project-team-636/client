@@ -7,7 +7,7 @@
           <div class="course_main">
             <el-container style="padding-top: 20px;">
               <el-aside width="150px"
-                ><el-image :src="course_cover"></el-image
+                ><el-image class="image" :src="course_cover"></el-image
               ></el-aside>
               <el-main style="padding:0px;">
                 <el-container style="padding: 10px 20px 10px 20px;">
@@ -61,7 +61,11 @@
             </el-table-column>
             <el-table-column label="视频标题" width="870">
               <template slot-scope="scope">
-                <span>{{ scope.row.video_name }}</span>
+                <span
+                  class="course_video_title"
+                  @click="video_title_click_handle(scope.row)"
+                  >{{ scope.row.video_name }}</span
+                >
               </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -168,6 +172,12 @@ export default {
         .catch(function(error) {
           self.$message.error(error);
         });
+    },
+    video_title_click_handle(video) {
+      this.$router.push({
+        path: "/video",
+        query: { course_id: this.course_id, video_id: video.video_id }
+      });
     }
   },
   filters: {
@@ -205,6 +215,11 @@ export default {
     color: white;
     margin: auto;
     background-color: #2f3f60;
+  }
+
+  .image {
+    width: 100%;
+    height: 150px;
   }
 
   .course_table {
@@ -259,6 +274,11 @@ export default {
   .table_button {
     float: left;
     margin-right: 9px;
+  }
+
+  .course_video_title:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
 </style>

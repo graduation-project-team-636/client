@@ -6,12 +6,17 @@ import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import VueCookie from "vue-cookie";
+import VideoPlayer from "vue-video-player";
+import "vue-video-player/src/custom-theme.css";
+import "video.js/dist/video-js.css";
 
 Vue.use(VueAxios, axios);
 Vue.use(VueCookie);
 
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true;
+
+Vue.use(VideoPlayer);
 
 new Vue({
   router,
