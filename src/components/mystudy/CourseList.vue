@@ -2,7 +2,7 @@
   <div id="mystudy_courselist">
     <el-card>
       <el-container>
-        <el-aside width="150px"
+        <el-aside width="200px"
           ><el-image class="image" :src="course_cover"></el-image
         ></el-aside>
         <el-main style="padding: 10px 20px 10px 20px;">

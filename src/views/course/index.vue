@@ -6,9 +6,10 @@
         ><div class="course_head">
           <div class="course_main">
             <el-container style="padding-top: 20px;">
-              <el-aside width="150px"
+              <el-aside width="200px"
                 ><el-image class="image" :src="course_cover"></el-image
               ></el-aside>
+
               <el-main style="padding:0px;">
                 <el-container style="padding: 10px 20px 10px 20px;">
                   <el-aside width="750px"

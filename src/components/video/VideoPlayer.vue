@@ -14,6 +14,8 @@
             ref="videoPlayer"
             :playsinline="true"
             :options="playerOptions"
+            @timeupdate="onPlayerTimeupdate($event)"
+            @ready="playerReadied"
           >
           </video-player
         ></el-main>
@@ -25,6 +27,8 @@
         ></el-aside>
       </el-container>
     </el-container>
+
+    <button @click="test_button_click">ss</button>
   </div>
 </template>
 
@@ -35,11 +39,13 @@ export default {
   data() {
     return {
       video_name: "",
+      player_position: 0,
+      myPlayer: "", // 获取播放器对象
       playerOptions: {
         //播放速度
         playbackRates: [0.5, 1.0, 1.5, 2.0],
         //如果true,浏览器准备好时开始回放。
-        autoplay: false,
+        autoplay: true,
         // 默认情况下将会消除任何音频。
         muted: false,
         // 导致视频一结束就重新开始。
@@ -108,12 +114,21 @@ export default {
         path: "/course",
         query: { course_id: this.course_id }
       });
+    },
+    //当前播放位置发生变化时触发。
+    onPlayerTimeupdate(player) {
+      this.player_position = player.cache_.currentTime;
+    },
+    //将侦听器绑定到组件的就绪状态。与事件监听器的不同之处在于，如果ready事件已经发生，它将立即触发该函数。。
+    playerReadied(player) {
+      // seek to 10s
+      this.myPlayer = player;
+    },
+    test_button_click() {
+      this.myPlayer.currentTime(10.0);
     }
   }
 };
 </script>
 
-<style lang="scss">
-#video_player {
-}
-</style>
+<style lang="scss"></style>
