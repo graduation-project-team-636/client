@@ -18,6 +18,8 @@
           <div>
             <div>
               <h2>热门课程</h2>
+              <div v-if="seenNothing"><Nothing></Nothing></div>
+
               <div
                 v-for="(course, index) in hotest_course_data"
                 :key="index"
@@ -40,6 +42,8 @@
 
             <div>
               <h2>最新课程</h2>
+              <div v-if="seenNothing"><Nothing></Nothing></div>
+
               <div
                 v-for="(course, index) in newest_course_data"
                 :key="index"
@@ -70,6 +74,7 @@
 // @ 相当于 /src
 import Headbar from "@/components/home/Headbar.vue";
 import Sidebar from "@/components/home/Sidebar.vue";
+import Nothing from "@/components/home/Nothing.vue";
 import Carousel from "@/components/home/Carousel.vue";
 import CourseCard from "@/components/home/CourseCard.vue";
 
@@ -85,7 +90,8 @@ export default {
     Headbar,
     Sidebar,
     Carousel,
-    CourseCard
+    CourseCard,
+    Nothing
   },
   mounted() {
     this.get_newest_course_data();
@@ -162,6 +168,15 @@ export default {
         }
       }
       return result;
+    }
+  },
+  computed: {
+    seenNothing() {
+      if (this.newest_course_data.length == 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };

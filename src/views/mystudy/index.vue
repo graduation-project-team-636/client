@@ -15,6 +15,8 @@
             </el-aside>
 
             <el-main>
+              <div v-if="seenNothing"><Nothing></Nothing></div>
+
               <div id="course_list">
                 <CourseList
                   class="mystudy_courselist"
@@ -39,6 +41,7 @@
 
 <script>
 import Headbar from "@/components/home/Headbar.vue";
+import Nothing from "@/components/home/Nothing.vue";
 import Sidebar from "@/components/mystudy/Sidebar.vue";
 import CourseList from "@/components/mystudy/CourseList.vue";
 
@@ -51,6 +54,7 @@ export default {
   },
   components: {
     Headbar,
+    Nothing,
     Sidebar,
     CourseList
   },
@@ -76,6 +80,15 @@ export default {
         .catch(function(error) {
           self.$message.error(error);
         });
+    }
+  },
+  computed: {
+    seenNothing() {
+      if (this.courses.length == 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };

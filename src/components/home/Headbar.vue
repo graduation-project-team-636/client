@@ -21,19 +21,23 @@
         ></router-link
       >
 
-      <el-submenu index="3" style="float: right;">
+      <el-submenu v-if="seenLogin" index="3" style="float: right;">
         <template slot="title">
           <el-avatar :src="avatar" :fit="avatarFit"></el-avatar
         ></template>
-        <router-link to="/admin/user/home" class="myButton">
+        <router-link to="/admin/user/home">
           <el-menu-item index="3-1"
-            ><i class="el-icon-user"></i>个人中心</el-menu-item
-          ></router-link
+            ><i class="el-icon-user"></i> <span class="myButton">个人中心</span>
+          </el-menu-item></router-link
         >
         <el-menu-item v-on:click="handleLogout"
           ><i class="el-icon-caret-right"></i>退出登录</el-menu-item
         >
       </el-submenu>
+
+      <el-menu-item v-if="seenLogout" style="float: right;">
+        <el-avatar :src="avatar" :fit="avatarFit"></el-avatar>
+      </el-menu-item>
 
       <router-link v-if="seenLogout" to="/register" class="myButton">
         <el-menu-item index="5" style="float: right;"
@@ -54,7 +58,7 @@
       >
 
       <router-link
-        v-if="seenLogin"
+        v-if="seenManager"
         to="/creating/course/create"
         class="myButton"
       >
@@ -124,6 +128,13 @@ export default {
     },
     seenLogout() {
       return !this.$store.state.isLogin;
+    },
+    seenManager() {
+      if (this.$store.state.isLogin == true && this.$store.state.groupid == 1) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };

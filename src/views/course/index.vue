@@ -23,18 +23,18 @@
                     </div>
                   </el-aside>
                   <el-main style="padding: 0px;">
-                    <div class="course_button_div1">
+                    <div v-if="seenManager" class="course_button_div1">
                       <CourseDeleteButton
                         :course_id="course_id"
                       ></CourseDeleteButton>
                     </div>
-                    <div class="course_button_div1">
+                    <div v-if="seenManager" class="course_button_div1">
                       <CourseEditButton
                         :course_id="course_id"
                       ></CourseEditButton>
                     </div>
 
-                    <div class="course_button_div2">
+                    <div v-if="seenLogin" class="course_button_div2">
                       <CourseJoinButton
                         :course_id="course_id"
                       ></CourseJoinButton>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="course_table">
-          <div class="course_table_upload">
+          <div v-if="seenManager" class="course_table_upload">
             <VideoUploadButton :course_id="course_id"></VideoUploadButton>
           </div>
 
@@ -69,13 +69,15 @@
                 >
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column v-bind:label="tableLastColumn">
               <template slot-scope="scope">
                 <VideoEditButton
+                  v-if="seenManager"
                   :tableScope="scope"
                   class="table_button"
                 ></VideoEditButton>
                 <VideoDeleteButton
+                  v-if="seenManager"
                   :tableScope="scope"
                   class="table_button"
                 ></VideoDeleteButton>
@@ -179,6 +181,25 @@ export default {
         path: "/video",
         query: { course_id: this.course_id, video_id: video.video_id }
       });
+    }
+  },
+  computed: {
+    seenManager() {
+      if (this.$store.state.isLogin == true && this.$store.state.groupid == 1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    tableLastColumn() {
+      if (this.$store.state.isLogin == true && this.$store.state.groupid == 1) {
+        return "操作";
+      } else {
+        return "";
+      }
+    },
+    seenLogin() {
+      return this.$store.state.isLogin;
     }
   },
   filters: {

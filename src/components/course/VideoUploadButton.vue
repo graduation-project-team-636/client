@@ -12,7 +12,7 @@
         label-width="80px"
         class="demo-ruleForm"
       >
-        <el-form-item label="视频名称" prop="name">
+        <el-form-item label="视频标题" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
 

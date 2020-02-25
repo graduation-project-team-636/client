@@ -22,6 +22,7 @@
                 {{ course_introduction }}
               </div>
               <el-button
+                v-if="seenManager"
                 v-on:click.prevent="course_click_handle"
                 type="text"
                 class="button"
@@ -56,6 +57,15 @@ export default {
         path: "/course",
         query: { course_id: this.course_id }
       });
+    }
+  },
+  computed: {
+    seenManager() {
+      if (this.$store.state.isLogin == true && this.$store.state.groupid == 1) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };

@@ -78,6 +78,8 @@
               </el-radio-group></el-header
             >
             <el-main style="padding: 0px;">
+              <div v-if="seenNothing"><Nothing></Nothing></div>
+
               <div
                 v-for="(course, index) in course_data"
                 :key="index"
@@ -118,6 +120,7 @@
 <script>
 import Headbar from "@/components/home/Headbar.vue";
 import CourseCard from "@/components/home/CourseCard.vue";
+import Nothing from "@/components/home/Nothing.vue";
 
 export default {
   name: "classification",
@@ -132,13 +135,14 @@ export default {
       tag_datas: [],
       tag_origin_datas: [],
       page: 1,
-      pageTotal: 10, //总页数乘以10倍得pageTotal
+      pageTotal: 1,
       course_data: []
     };
   },
   components: {
     Headbar,
-    CourseCard
+    CourseCard,
+    Nothing
   },
   mounted() {
     this.category_datas = this.$store.state.category_origin_datas;
@@ -248,7 +252,15 @@ export default {
         });
     }
   },
-  computed: {}
+  computed: {
+    seenNothing() {
+      if (this.course_data.length == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 };
 </script>
 
