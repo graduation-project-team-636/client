@@ -22,6 +22,7 @@ export default {
     // 整个应用创建之初，先获取登录状态以保持登录
     this.keepLoginState();
   },
+  mounted() {},
   methods: {
     keepLoginState() {
       // 获取用户基本信息以实现保持登录

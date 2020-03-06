@@ -101,12 +101,12 @@ export default new Vuex.Store({
       state.avatar = param;
     },
     loginSet(state, params) {
-      state.isLogin = true;
       state.user_id = params.user_id;
       state.username = params.username;
       state.groupid = params.groupid;
       state.avatar = params.avatar;
       state.reg_time = params.reg_time;
+      state.isLogin = true;
     },
     logoutSet(state) {
       state.isLogin = false;

@@ -53,7 +53,7 @@
         <el-form-item label="课程封面" prop="cover">
           <el-upload
             class="avatar-uploader"
-            action=""
+            action
             :show-file-list="false"
             :before-upload="beforeAvatarUpload"
             v-model="ruleForm.coverFile"

@@ -59,6 +59,8 @@ export default {
             self.$message.error(self.$store.state.errorText13);
           } else if (response.data.error_code == 22) {
             self.$message.error(self.$store.state.errorText22);
+          } else if (response.data.error_code == 31) {
+            self.$message.error(self.$store.state.errorText31);
           } else {
             self.$message.error(self.$store.state.errorTextUnknown);
           }

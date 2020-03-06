@@ -3,32 +3,42 @@
     <el-container>
       <el-header style="padding: 0px;">
         <el-card>
-          <el-page-header @back="goBack" :content="video_name">
-          </el-page-header>
+          <el-page-header @back="goBack" :content="video_name"></el-page-header>
         </el-card>
       </el-header>
       <el-container>
-        <el-main style="padding: 0px;"
-          ><video-player
+        <el-main style="padding: 0px;">
+          <video-player
             class="video-player vjs-custom-skin"
             ref="videoPlayer"
             :playsinline="true"
             :options="playerOptions"
             @timeupdate="onPlayerTimeupdate($event)"
             @ready="playerReadied"
-          >
-          </video-player
-        ></el-main>
-        <el-aside width="300px"
-          ><VideoCategorySideBar
+          ></video-player>
+        </el-main>
+        <el-aside width="300px">
+          <VideoCategorySideBar
             :course_id="course_id"
             :video_id="video_id"
-          ></VideoCategorySideBar
-        ></el-aside>
+          ></VideoCategorySideBar>
+        </el-aside>
       </el-container>
     </el-container>
 
-    <button @click="test_button_click">ss</button>
+    <div class="ppt_bar">
+      <el-scrollbar
+        style="height: 100%; overflow-y: hidden; white-space: nowrap;"
+        ><el-image
+          v-for="ppt in ppts"
+          :key="ppt.ppt_image"
+          :src="ppt.ppt_image"
+          v-on:click="ppt_image_click_handle(ppt.ppt_positon)"
+          class="ppt_image"
+          lazy
+        ></el-image
+      ></el-scrollbar>
+    </div>
   </div>
 </template>
 
@@ -41,11 +51,12 @@ export default {
       video_name: "",
       player_position: 0,
       myPlayer: "", // 获取播放器对象
+      ppts: [],
       playerOptions: {
         //播放速度
         playbackRates: [0.5, 1.0, 1.5, 2.0],
         //如果true,浏览器准备好时开始回放。
-        autoplay: true,
+        autoplay: false,
         // 默认情况下将会消除任何音频。
         muted: false,
         // 导致视频一结束就重新开始。
@@ -85,6 +96,7 @@ export default {
   },
   mounted() {
     this.getVideoInfo();
+    this.getPPT();
   },
   methods: {
     getVideoInfo() {
@@ -109,6 +121,27 @@ export default {
           self.$message.error(error);
         });
     },
+    getPPT() {
+      var myParams = {
+        video_id: this.video_id
+      };
+
+      var url = this.$store.state.baseUrl + "/video/getppt";
+      var self = this;
+
+      this.axios
+        .get(url, { params: myParams })
+        .then(function(response) {
+          if (response.data.error_code == 0) {
+            self.ppts = response.data.data.ppt;
+          } else {
+            self.$message.error(this.$store.state.errorTextUnknown);
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
+    },
     goBack() {
       this.$router.push({
         path: "/course",
@@ -124,11 +157,30 @@ export default {
       // seek to 10s
       this.myPlayer = player;
     },
-    test_button_click() {
-      this.myPlayer.currentTime(10.0);
+    ppt_image_click_handle(ppt_positon) {
+      this.myPlayer.currentTime(ppt_positon);
     }
   }
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+#video_player {
+  .ppt_bar {
+    margin-top: 10px;
+    height: 160px;
+    border-top: solid lightgray 1px;
+    border-bottom: solid lightgray 1px;
+    background-color: #fffcf7;
+    padding-top: 10px;
+
+    .ppt_image {
+      padding: 0px;
+      margin: 0px;
+      border: 0px;
+      width: 200px;
+      height: 134px;
+    }
+  }
+}
+</style>

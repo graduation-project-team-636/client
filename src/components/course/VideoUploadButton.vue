@@ -29,11 +29,13 @@
             <el-button slot="trigger" size="small" type="primary"
               >选取文件</el-button
             >
-
-            <div slot="tip" class="el-upload__tip">
-              支持多种视频格式，大小不超过500MB
-            </div>
           </el-upload>
+        </el-form-item>
+
+        <el-form-item label="" prop="tip">
+          <div>
+            支持多种视频格式，大小不超过500MB
+          </div>
         </el-form-item>
       </el-form>
 
@@ -197,25 +199,22 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #video_upload_button {
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+  .upload-demo {
+    display: flex;
   }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409eff;
+  >>> .el-list-enter-active,
+  >>> .el-list-leave-active {
+    transition: none;
   }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
+
+  >>> .el-list-enter,
+  >>> .el-list-leave-active {
+    opacity: 0;
+  }
+  >>> .el-upload-list {
+    height: 40px;
   }
 }
 </style>

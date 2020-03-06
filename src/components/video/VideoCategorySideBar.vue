@@ -5,13 +5,13 @@
       :data="tableData"
       style="width: 100%;"
       :header-cell-style="{
-        background: '#d2d5da',
-        color: '#666666',
+        background: '#fff0ed',
+        color: 'black',
         height: '60px'
       }"
       :cell-style="{
-        background: '#f5f7fa',
-        color: 'grey'
+        background: '#fffcf7',
+        color: 'gray'
       }"
     >
       <el-table-column label="目录"
@@ -103,7 +103,7 @@ export default {
 <style lang="scss">
 #video_category_sideBar {
   height: 100%;
-  background-color: #f5f7fa;
+  background-color: #fffcf7;
 
   .table_row:hover {
     cursor: pointer;
@@ -112,7 +112,7 @@ export default {
 
   .table_row_active {
     cursor: pointer;
-    color: #008080;
+    color: #b5544f;
     font-weight: bold;
   }
 }

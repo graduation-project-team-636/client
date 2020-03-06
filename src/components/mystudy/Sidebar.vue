@@ -114,6 +114,7 @@ export default {
 <style lang="scss">
 #mystudy_sidebar {
   height: 100%;
+  background-color: white;
 
   .info {
     margin-top: 25px;
@@ -140,8 +141,7 @@ export default {
   }
 
   .mystudy_info_block {
-    margin-left: 5px;
-    margin-right: 5px;
+    background-color: white;
   }
 }
 </style>

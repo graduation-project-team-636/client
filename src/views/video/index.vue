@@ -42,6 +42,7 @@ export default {
 <style lang="scss">
 #video {
   height: 100%;
+  background-color: #f3f5f7;
 
   .video_main {
     width: 1400px;

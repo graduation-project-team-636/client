@@ -6,15 +6,15 @@
       ></el-header>
       <el-main style="padding: 0px;">
         <div class="main">
-          <el-container style="background-color: white;">
+          <el-container>
             <el-aside
               width="250px"
-              style="border-right: #c0c4cc solid 1px; padding-top: 20px;"
+              style="border-right: 1px lightgrey solid; background-color: white; padding-top: 20px;"
             >
               <Sidebar></Sidebar>
             </el-aside>
 
-            <el-main>
+            <el-main style="background-color: white;">
               <div v-if="seenNothing"><Nothing></Nothing></div>
 
               <div id="course_list">

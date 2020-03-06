@@ -37,16 +37,39 @@ export default {
     };
   },
   mounted() {
-    this.imageUrl = this.$store.state.avatar;
-    this.username = this.$store.state.username;
-    if (this.$store.state.groupid == 2) {
-      this.group = "普通用户";
-    } else if (this.$store.state.groupid == 1) {
-      this.group = "管理员";
-    }
-    this.reg_time = this.$store.state.reg_time;
+    this.userProfileGet();
   },
   methods: {
+    userProfileGet() {
+      var profileGetUrl = this.$store.state.baseUrl + "/user/profile/";
+      var self = this;
+
+      this.axios
+        .get(profileGetUrl)
+        .then(function(response) {
+          if (response.data.error_code == 0) {
+            self.imageUrl = response.data.data.avatar;
+            self.username = response.data.data.username;
+
+            if (response.data.data.groupid == 2) {
+              self.group = "普通用户";
+            } else if (response.data.data.groupid == 1) {
+              self.group = "管理员";
+            }
+
+            self.reg_time = response.data.data.reg_time;
+          }
+          // 用户未登录
+          else if (response.data.error_code == 13) {
+            self.$message.error(self.$store.state.errorText13);
+          } else {
+            self.$message.error(self.$store.state.errorTextUnknown);
+          }
+        })
+        .catch(function(error) {
+          self.$message.error(error);
+        });
+    },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
       const isPNG = file.type === "image/png";
