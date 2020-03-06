@@ -29,14 +29,25 @@
     <div class="ppt_bar">
       <el-scrollbar
         style="height: 100%; overflow-y: hidden; white-space: nowrap;"
-        ><el-image
+        ><el-popover
           v-for="ppt in ppts"
           :key="ppt.ppt_image"
-          :src="ppt.ppt_image"
-          v-on:click="ppt_image_click_handle(ppt.ppt_positon)"
-          class="ppt_image"
-          lazy
-        ></el-image
+          placement="top-start"
+          width="600"
+          trigger="hover"
+        >
+          <el-image
+            :src="ppt.ppt_image"
+            style="width: 600px; height: 400px;"
+          ></el-image>
+
+          <el-image
+            :src="ppt.ppt_image"
+            v-on:click="ppt_image_click_handle(ppt.ppt_positon)"
+            class="ppt_image"
+            lazy
+            slot="reference"
+          ></el-image> </el-popover
       ></el-scrollbar>
     </div>
   </div>
@@ -180,6 +191,7 @@ export default {
       border: 0px;
       width: 200px;
       height: 134px;
+      cursor: pointer;
     }
   }
 }
