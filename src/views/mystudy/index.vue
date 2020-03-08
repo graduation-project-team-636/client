@@ -7,14 +7,14 @@
       <el-main style="padding: 0px;">
         <div class="main">
           <el-container>
-            <el-aside
-              width="250px"
-              style="border-right: 1px lightgrey solid; background-color: white; padding-top: 20px;"
-            >
+            <el-aside width="250px">
               <Sidebar></Sidebar>
             </el-aside>
 
-            <el-main style="background-color: white;">
+            <el-main
+              ref="mainElement"
+              style="background-color: white; margin-left: 20px;"
+            >
               <div v-if="seenNothing"><Nothing></Nothing></div>
 
               <div id="course_list">
@@ -59,30 +59,53 @@ export default {
     CourseList
   },
   mounted() {
-    this.getUserAttendCourse();
+    this.getCourseThenSetHeight();
   },
   methods: {
+    async getCourseThenSetHeight() {
+      await this.getUserAttendCourse();
+      this.setMainHeight();
+    },
+    setMainHeight() {
+      if (this.courses.length <= 3) {
+        this.$refs.mainElement.$el.style.height =
+          document.documentElement.clientHeight - 60 + "px";
+      }
+    },
     getUserAttendCourse() {
-      var url = this.$store.state.baseUrl + "/course/attended_by_users/";
-      var self = this;
+      return new Promise(resolve => {
+        var url = this.$store.state.baseUrl + "/course/attended_by_users/";
+        var self = this;
 
-      this.axios
-        .get(url)
-        .then(function(response) {
-          if (response.data.error_code == 0) {
-            self.courses = response.data.data.course;
-          } else if (response.data.error_code == 13) {
-            self.$message.error(self.$store.state.errorText13);
-          } else {
-            self.$message.error(self.$store.state.errorTextUnknown);
-          }
-        })
-        .catch(function(error) {
-          self.$message.error(error);
-        });
+        this.axios
+          .get(url)
+          .then(function(response) {
+            if (response.data.error_code == 0) {
+              self.courses = response.data.data.course;
+              // 一定要有resolve(xxx)，如果不通过resolve返回任何值，就resolve()
+              resolve();
+            } else if (response.data.error_code == 13) {
+              self.$message.error(self.$store.state.errorText13);
+            } else {
+              self.$message.error(self.$store.state.errorTextUnknown);
+            }
+          })
+          .catch(function(error) {
+            self.$message.error(error);
+          });
+      });
     }
   },
   computed: {
+    mainHeight() {
+      // 若列表高度不占满全屏，则设置占满
+      // 课程列表数少于等于三个时，会占不满
+      if (this.courses.length <= 3) {
+        return document.documentElement.clientHeight - 60 + "px";
+      } else {
+        return 0;
+      }
+    },
     seenNothing() {
       if (this.courses.length == 0) {
         return true;
@@ -101,9 +124,7 @@ export default {
 
   .main {
     width: 1200px;
-    height: 100%;
     margin: auto;
-    background-color: white;
   }
 
   .mystudy_courselist {

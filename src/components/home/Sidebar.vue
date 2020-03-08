@@ -7,6 +7,7 @@
       background-color="#2d3a4b"
       text-color="#ccc"
       active-text-color="#ffd04b"
+      style="padding:0px; margin: 0px; border: none;"
     >
       <router-link to="/classification" class="myButton">
         <el-menu-item index="1">
@@ -68,6 +69,10 @@ export default {
 
 <style lang="scss">
 #home_sidebar {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+
   .myButton {
     text-decoration: none;
   }

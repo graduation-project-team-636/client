@@ -8,10 +8,15 @@
         <div id="home_main">
           <div>
             <el-container>
-              <el-aside width="250px" style="padding: 0px 0px 1px 0px;">
+              <el-aside
+                width="250px"
+                style="padding: 0px 0px 1px 0px; margin: 0px; border: none; background-color: #26303f;"
+              >
                 <Sidebar></Sidebar
               ></el-aside>
-              <el-main style="padding: 0px;"><Carousel></Carousel></el-main>
+              <el-main style="padding: 0px; margin: 0px; border: none;"
+                ><Carousel></Carousel
+              ></el-main>
             </el-container>
           </div>
 

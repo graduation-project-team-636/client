@@ -18,13 +18,26 @@ export default {
       isRouterAlive: true //控制视图是否显示的变量
     };
   },
-  created() {
+  beforeCreate() {
     // 整个应用创建之初，先获取登录状态以保持登录
-    this.keepLoginState();
+    // 获取用户基本信息以实现保持登录
+    var profileGetUrl = this.$store.state.baseUrl + "/user/profile/";
+    var self = this;
+
+    this.axios
+      .get(profileGetUrl)
+      .then(function(response) {
+        if (response.data.error_code == 0) {
+          self.$store.commit("loginSet", response.data.data);
+        }
+      })
+      .catch(function(error) {
+        self.$message.error(error);
+      });
   },
-  mounted() {},
+  created() {},
   methods: {
-    keepLoginState() {
+    /*keepLoginState() {
       // 获取用户基本信息以实现保持登录
       var profileGetUrl = this.$store.state.baseUrl + "/user/profile/";
       var self = this;
@@ -39,7 +52,7 @@ export default {
         .catch(function(error) {
           self.$message.error(error);
         });
-    },
+    },*/
     reload() {
       this.isRouterAlive = false; //先关闭，
       this.$nextTick(function() {

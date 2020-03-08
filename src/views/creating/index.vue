@@ -6,7 +6,10 @@
       ></el-header>
       <el-main style="padding: 0px;"
         ><div class="creating_main">
-          <el-container style="background-color: white;">
+          <el-container
+            style="background-color: white;"
+            :style="{ height: seenHeight }"
+          >
             <el-aside width="200px"><SideBar></SideBar></el-aside>
             <el-main><router-view></router-view></el-main>
           </el-container></div
@@ -21,10 +24,31 @@ import SideBar from "@/components/creating/SideBar.vue";
 
 export default {
   name: "creating",
+  data() {
+    return {
+      seenHeight: document.documentElement.clientHeight - 60 + "px"
+    };
+  },
   components: {
     Headbar,
     SideBar
-  }
+  },
+  mounted() {
+    this.computedHeight();
+  },
+  methods: {
+    computedHeight() {
+      const self = this;
+      window.onresize = () => {
+        return (() => {
+          if (document.documentElement.clientHeight > 700) {
+            self.seenHeight = document.documentElement.clientHeight - 60 + "px";
+          }
+        })();
+      };
+    }
+  },
+  computed: {}
 };
 </script>
 
