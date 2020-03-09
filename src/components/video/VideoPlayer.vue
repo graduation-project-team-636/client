@@ -62,7 +62,12 @@ export default {
       video_name: "",
       player_position: 0,
       myPlayer: "", // 获取播放器对象
-      ppts: [],
+      ppts: [
+        {
+          ppt_positon: 0,
+          ppt_image: require("../../assets/empty.jpg")
+        }
+      ],
       playerOptions: {
         //播放速度
         playbackRates: [0.5, 1.0, 1.5, 2.0],
@@ -145,8 +150,28 @@ export default {
         .then(function(response) {
           if (response.data.error_code == 0) {
             self.ppts = response.data.data.ppt;
+            if (self.ppts.length == 0) {
+              // 如果为空
+              self.ppts = [
+                {
+                  ppt_positon: 0,
+                  ppt_image: require("../../assets/empty.jpg")
+                }
+              ];
+            }
+          } else if (response.data.error_code == 34) {
+            // 视频在处理，无法获取ppt
+            if (self.ppts.length == 0) {
+              // 如果为空
+              self.ppts = [
+                {
+                  ppt_positon: 0,
+                  ppt_image: require("../../assets/empty.jpg")
+                }
+              ];
+            }
           } else {
-            self.$message.error(this.$store.state.errorTextUnknown);
+            self.$message.error(self.$store.state.errorTextUnknown);
           }
         })
         .catch(function(error) {

@@ -63,6 +63,7 @@ export default {
   },
   methods: {
     async getCourseThenSetHeight() {
+      // await 只能出现在 async 函数中
       await this.getUserAttendCourse();
       this.setMainHeight();
     },
